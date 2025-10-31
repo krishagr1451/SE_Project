@@ -77,8 +77,8 @@ export default function RegisterForm() {
         localStorage.setItem('token', data.token)
       }
 
-      // Registration successful, redirect to dashboard
-      alert('Registration successful! Welcome to RideIndia!')
+  // Registration successful, redirect to dashboard
+  alert('Registration successful! Welcome to Drive Hire!')
       router.push('/dashboard')
     } catch (err) {
       setError('Network error')

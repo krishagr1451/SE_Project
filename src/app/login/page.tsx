@@ -89,7 +89,7 @@ export default function LoginPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-4xl font-bold text-indigo-600 mb-2"
           >
-            🇮🇳 RideIndia
+            🇮🇳 Drive Hire
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}

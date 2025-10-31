@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=${limit}&addressdetails=1&countrycodes=in`
     const resp = await fetch(nominatimUrl, {
       headers: {
-        'User-Agent': 'RideIndia-CarShare/1.0 (rideindia@example.com)'
+        'User-Agent': 'DriveHire-CarShare/1.0 (support@drivehire.com)'
       }
     })
 

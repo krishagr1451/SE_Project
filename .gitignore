@@ -41,3 +41,13 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+# ignore node_modules in all subfolders too
+node_modules/
+server/node_modules/
+
+# server build artifacts and env
+server/dist/
+server/build/
+server/.env*
+server/*.tsbuildinfo
+server/prisma/*.db

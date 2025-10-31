@@ -44,7 +44,7 @@ export default function Home() {
               className="text-center"
             >
               <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6">
-                Welcome to <span className="text-indigo-600">RideIndia</span>
+                Welcome to <span className="text-indigo-600">Drive Hire</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
                 Your trusted ride-sharing platform connecting passengers and drivers across India 🇮🇳
@@ -144,7 +144,7 @@ export default function Home() {
               Ready to Start Your Journey?
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Join thousands of riders and drivers using RideIndia every day
+              Join thousands of riders and drivers using Drive Hire every day
             </p>
             <Link
               href="/register"

@@ -12,7 +12,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 // Initialize Prisma Client
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../prisma/generated/client'
 const prisma = new PrismaClient()
 
 // Initialize Express app
@@ -1149,7 +1149,7 @@ app.get('/health', (req: Request, res: Response) => {
 
 app.get('/', (req: Request, res: Response) => {
   res.json({
-    message: 'RideIndia Backend API',
+    message: 'Drive Hire Backend API',
     version: '1.0.0',
     endpoints: {
       auth: ['/api/auth/register', '/api/auth/login', '/api/auth/google', '/api/auth/verify'],
@@ -1175,7 +1175,7 @@ app.use(errorHandler)
 const server = app.listen(PORT, () => {
   console.log(`
 ╔════════════════════════════════════════════╗
-║     🇮🇳 RideIndia Backend Server         ║
+║     🇮🇳 Drive Hire Backend Server        ║
 ╠════════════════════════════════════════════╣
 ║  Status: RUNNING                          ║
 ║  Port: ${PORT}                              ║

@@ -1,6 +1,6 @@
-# 🚀 RideIndia Backend Server
+# 🚀 Drive Hire Backend Server
 
-A production-ready Express.js + TypeScript backend server for the RideIndia car sharing and ride booking platform.
+A production-ready Express.js + TypeScript backend server for the Drive Hire car sharing and ride booking platform.
 
 ## ✨ Features
 
@@ -668,7 +668,7 @@ npm start
 
 4. **Use a process manager:**
 ```bash
-pm2 start dist/index.js --name rideindia-backend
+pm2 start dist/index.js --name drivehire-backend
 ```
 
 ---
