@@ -87,6 +87,7 @@ const rideSchema = z.object({
   dropoffLocation: z.string(),
   dropoffLat: z.number().optional(),
   dropoffLng: z.number().optional(),
+  vehicleType: z.enum(['AUTO', 'MINI', 'SEDAN', 'SUV', 'PREMIUM']).optional(),
   paymentMethod: z.string().optional(),
 })
 
@@ -625,11 +626,19 @@ app.post('/api/carpool', authenticateToken, async (req: AuthRequest, res: Respon
 
 // ==================== RIDE ROUTES ====================
 
-// Calculate fare based on distance
-function calculateFare(distance: number): number {
-  const baseFare = 50 // ₹50 base fare
-  const perKmRate = 15 // ₹15 per km
-  return Math.round(baseFare + (distance * perKmRate))
+// Vehicle pricing structure
+const vehiclePricing = {
+  AUTO: { baseFare: 30, perKm: 12, name: 'Auto' },
+  MINI: { baseFare: 50, perKm: 15, name: 'Mini' },
+  SEDAN: { baseFare: 80, perKm: 20, name: 'Sedan' },
+  SUV: { baseFare: 120, perKm: 25, name: 'SUV' },
+  PREMIUM: { baseFare: 200, perKm: 35, name: 'Premium' },
+}
+
+// Calculate fare based on distance and vehicle type
+function calculateFare(distance: number, vehicleType: string = 'MINI'): number {
+  const pricing = vehiclePricing[vehicleType as keyof typeof vehiclePricing] || vehiclePricing.MINI
+  return Math.round(pricing.baseFare + (distance * pricing.perKm))
 }
 
 // Calculate distance using Haversine formula
@@ -733,6 +742,7 @@ app.post('/api/rides', authenticateToken, async (req: AuthRequest, res: Response
     let fare = 0
     let distance = 0
     let estimatedTime = 0
+    const vehicleType = validatedData.vehicleType || 'MINI'
 
     if (validatedData.pickupLat && validatedData.pickupLng &&
         validatedData.dropoffLat && validatedData.dropoffLng) {
@@ -742,7 +752,7 @@ app.post('/api/rides', authenticateToken, async (req: AuthRequest, res: Response
         validatedData.dropoffLat,
         validatedData.dropoffLng
       )
-      fare = calculateFare(distance)
+      fare = calculateFare(distance, vehicleType)
       estimatedTime = Math.round(distance * 2.5) // Rough estimate: 2.5 min per km
     }
 
@@ -755,6 +765,7 @@ app.post('/api/rides', authenticateToken, async (req: AuthRequest, res: Response
         dropoffLocation: validatedData.dropoffLocation,
         dropoffLat: validatedData.dropoffLat,
         dropoffLng: validatedData.dropoffLng,
+        vehicleType: vehicleType as any,
         fare,
         distance,
         estimatedTime,

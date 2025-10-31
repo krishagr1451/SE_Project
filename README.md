@@ -5,24 +5,36 @@ A complete full-stack car rental and carpooling web application built with Next.
 ## 🚀 Features
 
 ### Backend (API Routes)
+- **Ride Booking API** - Real-time ride booking with JWT authentication
+- **Vehicle Type Selection** - Multiple vehicle categories (Auto, Mini, Sedan, SUV, Premium)
+- **Dynamic Fare Calculation** - Distance-based pricing per vehicle type
 - **Car Management API** - CRUD operations for car listings
 - **Carpool Management API** - CRUD operations for carpool rides
-- **Booking Management API** - Create and view bookings
-- **User Management API** - User registration with bcrypt password hashing
+- **User Authentication** - JWT tokens with bcrypt password hashing
 
 ### Frontend (Pages)
+- **🚗 Uber-Style Ride Booking** - Two-step booking flow with custom car illustrations
+   - Step 1: Location Selection (pickup & dropoff with map)
+   - Step 2: Vehicle Selection with 5 car types:
+      - **Auto** 🛺 - ₹30 base + ₹12/km (3 seats, 2 min ETA)
+      - **Mini** 🚗 - ₹50 base + ₹15/km (4 seats, 3 min ETA)
+      - **Sedan** 🚙 - ₹80 base + ₹20/km (4 seats, 4 min ETA)
+      - **SUV** 🚐 - ₹120 base + ₹25/km (6 seats, 5 min ETA)
+      - **Premium** 🚘 - ₹200 base + ₹35/km (4 seats, 6 min ETA)
+- **Custom SVG Car Illustrations** - Unique colored vehicle icons for each type
+- **Real-time Fare Calculator** - Live price updates based on distance
+- **Interactive Map** - Leaflet integration for route visualization
 - **Home Page** - Landing page with features showcase
-- **Cars Listing & Details** - Browse and book cars
-- **Add Car** - List your car for rent
-- **Carpools Listing & Details** - Browse and book carpool rides
-- **Create Carpool** - Offer rides to others
+- **Cars & Carpool** - Browse and book cars/carpools
 - **My Bookings** - View all your bookings
 
 ### Database (Prisma + SQLite)
-- User accounts with authentication
-- Car listings with owner relationships
-- Carpool rides with driver relationships
-- Booking system for both cars and carpools
+- **Users** - Accounts with JWT authentication
+- **Rides** - Pickup/dropoff locations, vehicle type, fare tracking
+- **Vehicle Types** - Enum-based categorization (AUTO, MINI, SEDAN, SUV, PREMIUM)
+- **Car Listings** - Traditional car rental with owner relationships
+- **Carpools** - Ride-sharing with driver relationships
+- **Bookings** - Unified booking system
 
 ## 📦 Tech Stack
 

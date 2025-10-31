@@ -112,6 +112,7 @@ model Ride {
   dropoffLocation String
   dropoffLat      Float?
   dropoffLng      Float?
+  vehicleType     VehicleType @default(AUTO)
   fare            Float?
   distance        Float?
   estimatedTime   Int?     // in minutes
@@ -173,4 +174,12 @@ enum TransactionType {
   CREDIT
   DEBIT
   REFUND
+}
+
+enum VehicleType {
+  AUTO
+  MINI
+  SEDAN
+  SUV
+  PREMIUM
 }

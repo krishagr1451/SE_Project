@@ -38,8 +38,8 @@ export default function LoginForm() {
     if (!googleLoaded || !window.google) return
 
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
-    if (!clientId) {
-      console.warn('Google Client ID not configured')
+    if (!clientId || clientId === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
+      console.warn('Google Client ID not configured. Please set NEXT_PUBLIC_GOOGLE_CLIENT_ID in .env.local')
       return
     }
 
@@ -94,6 +94,13 @@ export default function LoginForm() {
   }
 
   function handleGoogleSignIn() {
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
+    
+    if (!clientId || clientId === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
+      setError('Google Sign-In is not configured. Please use email/password login.')
+      return
+    }
+
     if (!window.google) {
       setError('Google Sign-In not loaded. Please refresh the page.')
       return
@@ -277,10 +284,11 @@ export default function LoginForm() {
           <motion.button
             type="button"
             onClick={handleGoogleSignIn}
-            disabled={loading || !googleLoaded}
+            disabled={loading || !googleLoaded || !process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE'}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            title={!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE' ? 'Google Sign-In not configured' : 'Sign in with Google'}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

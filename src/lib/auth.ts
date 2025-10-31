@@ -1,10 +1,11 @@
 import { sign, verify, type SignOptions, type JwtPayload as JwtStdPayload } from 'jsonwebtoken'
 
-const JWT_SECRET = (process.env.NEXTAUTH_SECRET || 'dev-secret-change-me') as string
+const JWT_SECRET = (process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET || 'dev-secret-change-me') as string
 
 export interface JwtPayload {
   userId: string
   role: 'PASSENGER' | 'DRIVER' | 'ADMIN'
+  email?: string
 }
 
 export function signToken(payload: JwtPayload, expiresInSeconds: number = 60 * 60 * 24) {

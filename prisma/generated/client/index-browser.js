@@ -191,6 +191,7 @@ exports.Prisma.RideScalarFieldEnum = {
   dropoffLocation: 'dropoffLocation',
   dropoffLat: 'dropoffLat',
   dropoffLng: 'dropoffLng',
+  vehicleType: 'vehicleType',
   fare: 'fare',
   distance: 'distance',
   estimatedTime: 'estimatedTime',
@@ -239,6 +240,14 @@ exports.CarStatus = exports.$Enums.CarStatus = {
   AVAILABLE: 'AVAILABLE',
   RENTED: 'RENTED',
   MAINTENANCE: 'MAINTENANCE'
+};
+
+exports.VehicleType = exports.$Enums.VehicleType = {
+  AUTO: 'AUTO',
+  MINI: 'MINI',
+  SEDAN: 'SEDAN',
+  SUV: 'SUV',
+  PREMIUM: 'PREMIUM'
 };
 
 exports.RideStatus = exports.$Enums.RideStatus = {

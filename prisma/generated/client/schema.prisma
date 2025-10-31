@@ -103,7 +103,7 @@ model Review {
 }
 
 model Ride {
-  id              String     @id @default(cuid())
+  id              String      @id @default(cuid())
   passengerId     String
   driverId        String?
   pickupLocation  String
@@ -112,12 +112,13 @@ model Ride {
   dropoffLocation String
   dropoffLat      Float?
   dropoffLng      Float?
+  vehicleType     VehicleType @default(AUTO)
   fare            Float?
   distance        Float?
   estimatedTime   Int? // in minutes
-  status          RideStatus @default(SEARCHING)
-  paymentMethod   String?    @default("cash")
-  createdAt       DateTime   @default(now())
+  status          RideStatus  @default(SEARCHING)
+  paymentMethod   String?     @default("cash")
+  createdAt       DateTime    @default(now())
   acceptedAt      DateTime?
   startedAt       DateTime?
   completedAt     DateTime?
@@ -173,4 +174,12 @@ enum TransactionType {
   CREDIT
   DEBIT
   REFUND
+}
+
+enum VehicleType {
+  AUTO
+  MINI
+  SEDAN
+  SUV
+  PREMIUM
 }

@@ -96,6 +96,17 @@ export const TransactionType: {
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
 
+
+export const VehicleType: {
+  AUTO: 'AUTO',
+  MINI: 'MINI',
+  SEDAN: 'SEDAN',
+  SUV: 'SUV',
+  PREMIUM: 'PREMIUM'
+};
+
+export type VehicleType = (typeof VehicleType)[keyof typeof VehicleType]
+
 }
 
 export type Role = $Enums.Role
@@ -113,6 +124,10 @@ export const RideStatus: typeof $Enums.RideStatus
 export type TransactionType = $Enums.TransactionType
 
 export const TransactionType: typeof $Enums.TransactionType
+
+export type VehicleType = $Enums.VehicleType
+
+export const VehicleType: typeof $Enums.VehicleType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -7917,6 +7932,7 @@ export namespace Prisma {
     dropoffLocation: string | null
     dropoffLat: number | null
     dropoffLng: number | null
+    vehicleType: $Enums.VehicleType | null
     fare: number | null
     distance: number | null
     estimatedTime: number | null
@@ -7938,6 +7954,7 @@ export namespace Prisma {
     dropoffLocation: string | null
     dropoffLat: number | null
     dropoffLng: number | null
+    vehicleType: $Enums.VehicleType | null
     fare: number | null
     distance: number | null
     estimatedTime: number | null
@@ -7959,6 +7976,7 @@ export namespace Prisma {
     dropoffLocation: number
     dropoffLat: number
     dropoffLng: number
+    vehicleType: number
     fare: number
     distance: number
     estimatedTime: number
@@ -8002,6 +8020,7 @@ export namespace Prisma {
     dropoffLocation?: true
     dropoffLat?: true
     dropoffLng?: true
+    vehicleType?: true
     fare?: true
     distance?: true
     estimatedTime?: true
@@ -8023,6 +8042,7 @@ export namespace Prisma {
     dropoffLocation?: true
     dropoffLat?: true
     dropoffLng?: true
+    vehicleType?: true
     fare?: true
     distance?: true
     estimatedTime?: true
@@ -8044,6 +8064,7 @@ export namespace Prisma {
     dropoffLocation?: true
     dropoffLat?: true
     dropoffLng?: true
+    vehicleType?: true
     fare?: true
     distance?: true
     estimatedTime?: true
@@ -8152,6 +8173,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat: number | null
     dropoffLng: number | null
+    vehicleType: $Enums.VehicleType
     fare: number | null
     distance: number | null
     estimatedTime: number | null
@@ -8192,6 +8214,7 @@ export namespace Prisma {
     dropoffLocation?: boolean
     dropoffLat?: boolean
     dropoffLng?: boolean
+    vehicleType?: boolean
     fare?: boolean
     distance?: boolean
     estimatedTime?: boolean
@@ -8215,6 +8238,7 @@ export namespace Prisma {
     dropoffLocation?: boolean
     dropoffLat?: boolean
     dropoffLng?: boolean
+    vehicleType?: boolean
     fare?: boolean
     distance?: boolean
     estimatedTime?: boolean
@@ -8238,6 +8262,7 @@ export namespace Prisma {
     dropoffLocation?: boolean
     dropoffLat?: boolean
     dropoffLng?: boolean
+    vehicleType?: boolean
     fare?: boolean
     distance?: boolean
     estimatedTime?: boolean
@@ -8261,6 +8286,7 @@ export namespace Prisma {
     dropoffLocation?: boolean
     dropoffLat?: boolean
     dropoffLng?: boolean
+    vehicleType?: boolean
     fare?: boolean
     distance?: boolean
     estimatedTime?: boolean
@@ -8272,7 +8298,7 @@ export namespace Prisma {
     completedAt?: boolean
   }
 
-  export type RideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passengerId" | "driverId" | "pickupLocation" | "pickupLat" | "pickupLng" | "dropoffLocation" | "dropoffLat" | "dropoffLng" | "fare" | "distance" | "estimatedTime" | "status" | "paymentMethod" | "createdAt" | "acceptedAt" | "startedAt" | "completedAt", ExtArgs["result"]["ride"]>
+  export type RideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passengerId" | "driverId" | "pickupLocation" | "pickupLat" | "pickupLng" | "dropoffLocation" | "dropoffLat" | "dropoffLng" | "vehicleType" | "fare" | "distance" | "estimatedTime" | "status" | "paymentMethod" | "createdAt" | "acceptedAt" | "startedAt" | "completedAt", ExtArgs["result"]["ride"]>
   export type RideInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     passenger?: boolean | UserDefaultArgs<ExtArgs>
     driver?: boolean | Ride$driverArgs<ExtArgs>
@@ -8302,6 +8328,7 @@ export namespace Prisma {
       dropoffLocation: string
       dropoffLat: number | null
       dropoffLng: number | null
+      vehicleType: $Enums.VehicleType
       fare: number | null
       distance: number | null
       estimatedTime: number | null
@@ -8745,6 +8772,7 @@ export namespace Prisma {
     readonly dropoffLocation: FieldRef<"Ride", 'String'>
     readonly dropoffLat: FieldRef<"Ride", 'Float'>
     readonly dropoffLng: FieldRef<"Ride", 'Float'>
+    readonly vehicleType: FieldRef<"Ride", 'VehicleType'>
     readonly fare: FieldRef<"Ride", 'Float'>
     readonly distance: FieldRef<"Ride", 'Float'>
     readonly estimatedTime: FieldRef<"Ride", 'Int'>
@@ -11491,6 +11519,7 @@ export namespace Prisma {
     dropoffLocation: 'dropoffLocation',
     dropoffLat: 'dropoffLat',
     dropoffLng: 'dropoffLng',
+    vehicleType: 'vehicleType',
     fare: 'fare',
     distance: 'distance',
     estimatedTime: 'estimatedTime',
@@ -11596,6 +11625,13 @@ export namespace Prisma {
    * Reference to a field of type 'CarStatus'
    */
   export type EnumCarStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CarStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'VehicleType'
+   */
+  export type EnumVehicleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VehicleType'>
     
 
 
@@ -12078,6 +12114,7 @@ export namespace Prisma {
     dropoffLocation?: StringFilter<"Ride"> | string
     dropoffLat?: FloatNullableFilter<"Ride"> | number | null
     dropoffLng?: FloatNullableFilter<"Ride"> | number | null
+    vehicleType?: EnumVehicleTypeFilter<"Ride"> | $Enums.VehicleType
     fare?: FloatNullableFilter<"Ride"> | number | null
     distance?: FloatNullableFilter<"Ride"> | number | null
     estimatedTime?: IntNullableFilter<"Ride"> | number | null
@@ -12101,6 +12138,7 @@ export namespace Prisma {
     dropoffLocation?: SortOrder
     dropoffLat?: SortOrderInput | SortOrder
     dropoffLng?: SortOrderInput | SortOrder
+    vehicleType?: SortOrder
     fare?: SortOrderInput | SortOrder
     distance?: SortOrderInput | SortOrder
     estimatedTime?: SortOrderInput | SortOrder
@@ -12127,6 +12165,7 @@ export namespace Prisma {
     dropoffLocation?: StringFilter<"Ride"> | string
     dropoffLat?: FloatNullableFilter<"Ride"> | number | null
     dropoffLng?: FloatNullableFilter<"Ride"> | number | null
+    vehicleType?: EnumVehicleTypeFilter<"Ride"> | $Enums.VehicleType
     fare?: FloatNullableFilter<"Ride"> | number | null
     distance?: FloatNullableFilter<"Ride"> | number | null
     estimatedTime?: IntNullableFilter<"Ride"> | number | null
@@ -12150,6 +12189,7 @@ export namespace Prisma {
     dropoffLocation?: SortOrder
     dropoffLat?: SortOrderInput | SortOrder
     dropoffLng?: SortOrderInput | SortOrder
+    vehicleType?: SortOrder
     fare?: SortOrderInput | SortOrder
     distance?: SortOrderInput | SortOrder
     estimatedTime?: SortOrderInput | SortOrder
@@ -12179,6 +12219,7 @@ export namespace Prisma {
     dropoffLocation?: StringWithAggregatesFilter<"Ride"> | string
     dropoffLat?: FloatNullableWithAggregatesFilter<"Ride"> | number | null
     dropoffLng?: FloatNullableWithAggregatesFilter<"Ride"> | number | null
+    vehicleType?: EnumVehicleTypeWithAggregatesFilter<"Ride"> | $Enums.VehicleType
     fare?: FloatNullableWithAggregatesFilter<"Ride"> | number | null
     distance?: FloatNullableWithAggregatesFilter<"Ride"> | number | null
     estimatedTime?: IntNullableWithAggregatesFilter<"Ride"> | number | null
@@ -12810,6 +12851,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -12833,6 +12875,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -12852,6 +12895,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12875,6 +12919,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12896,6 +12941,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -12915,6 +12961,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12936,6 +12983,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -13641,6 +13689,13 @@ export namespace Prisma {
     rating?: SortOrder
   }
 
+  export type EnumVehicleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.VehicleType | EnumVehicleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VehicleType[]
+    notIn?: $Enums.VehicleType[]
+    not?: NestedEnumVehicleTypeFilter<$PrismaModel> | $Enums.VehicleType
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -13674,6 +13729,7 @@ export namespace Prisma {
     dropoffLocation?: SortOrder
     dropoffLat?: SortOrder
     dropoffLng?: SortOrder
+    vehicleType?: SortOrder
     fare?: SortOrder
     distance?: SortOrder
     estimatedTime?: SortOrder
@@ -13705,6 +13761,7 @@ export namespace Prisma {
     dropoffLocation?: SortOrder
     dropoffLat?: SortOrder
     dropoffLng?: SortOrder
+    vehicleType?: SortOrder
     fare?: SortOrder
     distance?: SortOrder
     estimatedTime?: SortOrder
@@ -13726,6 +13783,7 @@ export namespace Prisma {
     dropoffLocation?: SortOrder
     dropoffLat?: SortOrder
     dropoffLng?: SortOrder
+    vehicleType?: SortOrder
     fare?: SortOrder
     distance?: SortOrder
     estimatedTime?: SortOrder
@@ -13745,6 +13803,16 @@ export namespace Prisma {
     fare?: SortOrder
     distance?: SortOrder
     estimatedTime?: SortOrder
+  }
+
+  export type EnumVehicleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VehicleType | EnumVehicleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VehicleType[]
+    notIn?: $Enums.VehicleType[]
+    not?: NestedEnumVehicleTypeWithAggregatesFilter<$PrismaModel> | $Enums.VehicleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVehicleTypeFilter<$PrismaModel>
+    _max?: NestedEnumVehicleTypeFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14534,6 +14602,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type EnumVehicleTypeFieldUpdateOperationsInput = {
+    set?: $Enums.VehicleType
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -14847,11 +14919,28 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumVehicleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.VehicleType | EnumVehicleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VehicleType[]
+    notIn?: $Enums.VehicleType[]
+    not?: NestedEnumVehicleTypeFilter<$PrismaModel> | $Enums.VehicleType
+  }
+
   export type NestedEnumRideStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.RideStatus | EnumRideStatusFieldRefInput<$PrismaModel>
     in?: $Enums.RideStatus[]
     notIn?: $Enums.RideStatus[]
     not?: NestedEnumRideStatusFilter<$PrismaModel> | $Enums.RideStatus
+  }
+
+  export type NestedEnumVehicleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VehicleType | EnumVehicleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VehicleType[]
+    notIn?: $Enums.VehicleType[]
+    not?: NestedEnumVehicleTypeWithAggregatesFilter<$PrismaModel> | $Enums.VehicleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVehicleTypeFilter<$PrismaModel>
+    _max?: NestedEnumVehicleTypeFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15045,6 +15134,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -15066,6 +15156,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -15094,6 +15185,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -15115,6 +15207,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -15338,6 +15431,7 @@ export namespace Prisma {
     dropoffLocation?: StringFilter<"Ride"> | string
     dropoffLat?: FloatNullableFilter<"Ride"> | number | null
     dropoffLng?: FloatNullableFilter<"Ride"> | number | null
+    vehicleType?: EnumVehicleTypeFilter<"Ride"> | $Enums.VehicleType
     fare?: FloatNullableFilter<"Ride"> | number | null
     distance?: FloatNullableFilter<"Ride"> | number | null
     estimatedTime?: IntNullableFilter<"Ride"> | number | null
@@ -16708,6 +16802,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -16728,6 +16823,7 @@ export namespace Prisma {
     dropoffLocation: string
     dropoffLat?: number | null
     dropoffLng?: number | null
+    vehicleType?: $Enums.VehicleType
     fare?: number | null
     distance?: number | null
     estimatedTime?: number | null
@@ -16908,6 +17004,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -16929,6 +17026,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -16949,6 +17047,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -16968,6 +17067,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -16989,6 +17089,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
@@ -17009,6 +17110,7 @@ export namespace Prisma {
     dropoffLocation?: StringFieldUpdateOperationsInput | string
     dropoffLat?: NullableFloatFieldUpdateOperationsInput | number | null
     dropoffLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    vehicleType?: EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
     fare?: NullableFloatFieldUpdateOperationsInput | number | null
     distance?: NullableFloatFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
