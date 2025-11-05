@@ -10,7 +10,7 @@ export interface AuthToken {
   }
 }
 
-const TOKEN_KEY = 'car_share_token'
+const TOKEN_KEY = 'auth' // Changed from 'car_share_token' to match LoginForm
 
 export function saveToken(data: AuthToken): void {
   if (typeof window !== 'undefined') {

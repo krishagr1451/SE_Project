@@ -108,6 +108,40 @@ export default function RideDetailsPage({ params }: { params: { id: string } }) 
     }
   }
 
+  const handleUpdateStatus = async (action: string) => {
+    setActionLoading(true)
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/rides/${params.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ action }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to ${action} ride`)
+      }
+
+      await fetchRide()
+      
+      if (action === 'complete') {
+        alert('Ride completed successfully! Payment has been processed.')
+      }
+    } catch (error) {
+      console.error(`Error ${action}ing ride:`, error)
+      setError(`Failed to ${action} ride`)
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -301,13 +335,51 @@ export default function RideDetailsPage({ params }: { params: { id: string } }) 
                 className="bg-white rounded-lg shadow-md p-6"
               >
                 <h3 className="text-lg font-semibold mb-4">Actions</h3>
-                <button
-                  onClick={handleCancelRide}
-                  disabled={actionLoading}
-                  className="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
-                >
-                  {actionLoading ? 'Cancelling...' : 'Cancel Ride'}
-                </button>
+                <div className="space-y-3">
+                  {/* Driver Actions */}
+                  {user?.role === 'DRIVER' && (
+                    <>
+                      {ride.status === 'ACCEPTED' && (
+                        <button
+                          onClick={() => handleUpdateStatus('arrive')}
+                          disabled={actionLoading}
+                          className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors font-semibold"
+                        >
+                          {actionLoading ? 'Updating...' : '📍 Mark as Arrived'}
+                        </button>
+                      )}
+                      {ride.status === 'ARRIVED' && (
+                        <button
+                          onClick={() => handleUpdateStatus('start')}
+                          disabled={actionLoading}
+                          className="w-full py-3 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors font-semibold"
+                        >
+                          {actionLoading ? 'Starting...' : '🚗 Start Ride'}
+                        </button>
+                      )}
+                      {ride.status === 'IN_PROGRESS' && (
+                        <button
+                          onClick={() => handleUpdateStatus('complete')}
+                          disabled={actionLoading}
+                          className="w-full py-3 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 transition-colors font-semibold"
+                        >
+                          {actionLoading ? 'Completing...' : '✅ Complete Ride'}
+                        </button>
+                      )}
+                    </>
+                  )}
+                  
+                  {/* Cancel Button (for both passenger and driver) */}
+                  {ride.status !== 'IN_PROGRESS' && (
+                    <button
+                      onClick={handleCancelRide}
+                      disabled={actionLoading}
+                      className="w-full py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors font-semibold"
+                    >
+                      {actionLoading ? 'Cancelling...' : '❌ Cancel Ride'}
+                    </button>
+                  )}
+                </div>
               </motion.div>
             )}
           </div>

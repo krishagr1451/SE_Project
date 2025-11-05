@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Navbar from '@/components/Navbar'
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 
@@ -15,6 +14,8 @@ interface Transaction {
   status: 'COMPLETED' | 'PENDING' | 'FAILED'
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+
 export default function WalletPage() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
@@ -23,6 +24,7 @@ export default function WalletPage() {
   const [amount, setAmount] = useState('')
   const [showAddMoney, setShowAddMoney] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   // Protect route: require authentication
   useEffect(() => {
@@ -35,26 +37,37 @@ export default function WalletPage() {
 
   async function fetchWalletData() {
     try {
+      setError(null)
       const auth = localStorage.getItem('auth')
       if (!auth) return
 
       const { token } = JSON.parse(auth)
 
       // Fetch wallet balance
-      const walletResponse = await fetch('http://localhost:4000/api/wallet', {
+      const walletResponse = await fetch(`${API_URL}/api/wallet`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       })
+      
+      if (!walletResponse.ok) {
+        throw new Error('Failed to fetch wallet data')
+      }
+      
       const walletData = await walletResponse.json()
       setBalance(walletData.wallet?.balance || 0)
 
       // Fetch transactions
-      const transactionsResponse = await fetch('http://localhost:4000/api/wallet/transactions', {
+      const transactionsResponse = await fetch(`${API_URL}/api/wallet/transactions`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       })
+      
+      if (!transactionsResponse.ok) {
+        throw new Error('Failed to fetch transactions')
+      }
+      
       const transactionsData = await transactionsResponse.json()
       
       // Transform transactions to match interface
@@ -70,6 +83,7 @@ export default function WalletPage() {
       setTransactions(transformedTransactions)
     } catch (error) {
       console.error('Error fetching wallet data:', error)
+      setError('Unable to connect to server. Please make sure the backend is running on port 4000.')
     } finally {
       setLoading(false)
     }
@@ -79,12 +93,13 @@ export default function WalletPage() {
     const addAmount = parseFloat(amount)
     if (addAmount > 0) {
       try {
+        setError(null)
         const auth = localStorage.getItem('auth')
         if (!auth) return
 
         const { token } = JSON.parse(auth)
 
-        const response = await fetch('http://localhost:4000/api/wallet/add', {
+        const response = await fetch(`${API_URL}/api/wallet/add`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -93,17 +108,17 @@ export default function WalletPage() {
           body: JSON.stringify({ amount: addAmount }),
         })
 
-        if (response.ok) {
-          await fetchWalletData() // Refresh wallet data
-          setAmount('')
-          setShowAddMoney(false)
-          alert(`₹${addAmount} added successfully!`)
-        } else {
-          alert('Failed to add money. Please try again.')
+        if (!response.ok) {
+          throw new Error('Failed to add money')
         }
+
+        await fetchWalletData() // Refresh wallet data
+        setAmount('')
+        setShowAddMoney(false)
+        alert(`₹${addAmount} added successfully!`)
       } catch (error) {
         console.error('Error adding money:', error)
-        alert('Failed to add money. Please try again.')
+        setError('Failed to add money. Please check your connection and try again.')
       }
     }
   }
@@ -111,7 +126,6 @@ export default function WalletPage() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
-        <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
           <p className="mt-4 text-gray-600">{authLoading ? 'Loading...' : 'Redirecting to login...'}</p>
@@ -122,8 +136,6 @@ export default function WalletPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
-      <Navbar />
-      
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
@@ -134,6 +146,24 @@ export default function WalletPage() {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">My Wallet</h1>
           <p className="text-gray-600">Manage your payments and transactions</p>
         </motion.div>
+
+        {/* Error Message */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"
+          >
+            <p className="font-semibold">Connection Error</p>
+            <p className="text-sm">{error}</p>
+            <button
+              onClick={fetchWalletData}
+              className="mt-2 text-sm underline hover:text-red-800"
+            >
+              Try Again
+            </button>
+          </motion.div>
+        )}
 
         {/* Wallet Card */}
         <motion.div

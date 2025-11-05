@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import Navbar from '@/components/Navbar'
 
 interface Ride {
   id: string
@@ -54,17 +53,19 @@ export default function DriverDashboardPage() {
 
   async function fetchDashboardData() {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) {
+      const auth = localStorage.getItem('auth')
+      if (!auth) {
         window.location.href = '/login'
         return
       }
+
+      const { token } = JSON.parse(auth)
 
       // Fetch rides based on tab
       let type = 'driverrides'
       if (activeTab === 'available') type = 'available'
 
-      const response = await fetch(`http://localhost:4000/api/rides?type=${type}`, {
+      const response = await fetch(`/api/rides?type=${type}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -116,8 +117,12 @@ export default function DriverDashboardPage() {
 
   async function acceptRide(rideId: string) {
     try {
-      const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:4000/api/rides/${rideId}`, {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+      
+      const response = await fetch(`/api/rides/${rideId}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -138,8 +143,6 @@ export default function DriverDashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <Navbar />
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
