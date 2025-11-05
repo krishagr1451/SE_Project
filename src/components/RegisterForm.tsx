@@ -77,9 +77,17 @@ export default function RegisterForm() {
         localStorage.setItem('token', data.token)
       }
 
-  // Registration successful, redirect to dashboard
-  alert('Registration successful! Welcome to Drive Hire!')
-      router.push('/dashboard')
+      // Store auth token and user info (keeps consistency with LoginForm and AuthContext)
+      localStorage.setItem('auth', JSON.stringify({
+        token: data.token,
+        user: data.user
+      }))
+
+      // Registration successful
+      alert('Registration successful! Welcome to Drive Hire!')
+      router.push('/')
+      // Force a refresh so navbar/auth state updates immediately
+      window.location.reload()
     } catch (err) {
       setError('Network error')
     } finally {
