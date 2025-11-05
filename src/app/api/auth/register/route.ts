@@ -44,7 +44,12 @@ export async function POST(request: NextRequest) {
         licenseNumber: user.licenseNumber || undefined,
       },
     }, { status: 201 })
-  } catch (error) {
-    return NextResponse.json({ error: 'Registration failed' }, { status: 500 })
+  } catch (error: any) {
+    // Surface a clearer error in logs and (in non-production) the response
+    console.error('Registration error:', error?.message || error)
+    const message = process.env.NODE_ENV === 'production'
+      ? 'Registration failed'
+      : `Registration failed: ${error?.message || 'Unknown error'}`
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
