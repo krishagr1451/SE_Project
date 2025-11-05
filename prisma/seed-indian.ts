@@ -6,12 +6,14 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Starting seed with Indian data...')
 
-  // Clear existing data
+  // Clear existing data in correct order (respect foreign keys)
   await prisma.review.deleteMany()
   await prisma.booking.deleteMany()
   await prisma.ride.deleteMany()
   await prisma.carpool.deleteMany()
   await prisma.car.deleteMany()
+  await prisma.wallet.deleteMany()
+  await prisma.transaction.deleteMany()
   await prisma.user.deleteMany()
 
   console.log('🗑️  Cleared existing data')
