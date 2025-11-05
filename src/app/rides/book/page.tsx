@@ -291,7 +291,7 @@ export default function BookRidePage() {
 
       const authToken = token || (auth ? JSON.parse(auth).token : null)
 
-      // Call backend server directly instead of Next.js API route
+      // Call Next.js API route (runs with the app)
       const response = await fetch('/api/rides', {
         method: 'POST',
         headers: {

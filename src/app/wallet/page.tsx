@@ -42,12 +42,17 @@ export default function WalletPage() {
       const { token } = JSON.parse(auth)
 
       // Fetch wallet balance
-      const walletResponse = await fetch(`/api/wallet`, {
+      const walletResponse = await fetch('/api/wallet', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       })
       
+      if (walletResponse.status === 401) {
+        setError('Session expired. Redirecting to login...')
+        router.replace('/login')
+        return
+      }
       if (!walletResponse.ok) {
         throw new Error('Failed to fetch wallet data')
       }
@@ -56,12 +61,17 @@ export default function WalletPage() {
       setBalance(walletData.wallet?.balance || 0)
 
       // Fetch transactions
-      const transactionsResponse = await fetch(`/api/wallet/transactions`, {
+      const transactionsResponse = await fetch('/api/wallet/transactions', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       })
       
+      if (transactionsResponse.status === 401) {
+        setError('Session expired. Redirecting to login...')
+        router.replace('/login')
+        return
+      }
       if (!transactionsResponse.ok) {
         throw new Error('Failed to fetch transactions')
       }
@@ -75,13 +85,13 @@ export default function WalletPage() {
         amount: t.amount,
         description: t.description || 'Transaction',
         date: t.createdAt,
-        status: t.status.toUpperCase() as 'COMPLETED' | 'PENDING' | 'FAILED'
+        status: (t.status || 'completed').toUpperCase() as 'COMPLETED' | 'PENDING' | 'FAILED'
       }))
       
       setTransactions(transformedTransactions)
     } catch (error) {
       console.error('Error fetching wallet data:', error)
-      setError('Unable to connect to server. Please try again later.')
+      setError('Unable to connect to server. Please try again. If the issue persists, log out and log back in.')
     } finally {
       setLoading(false)
     }
@@ -97,7 +107,7 @@ export default function WalletPage() {
 
         const { token } = JSON.parse(auth)
 
-        const response = await fetch(`/api/wallet/add`, {
+        const response = await fetch('/api/wallet/add', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -106,6 +116,11 @@ export default function WalletPage() {
           body: JSON.stringify({ amount: addAmount }),
         })
 
+        if (response.status === 401) {
+          setError('Session expired. Redirecting to login...')
+          router.replace('/login')
+          return
+        }
         if (!response.ok) {
           throw new Error('Failed to add money')
         }

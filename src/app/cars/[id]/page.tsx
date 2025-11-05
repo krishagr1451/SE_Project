@@ -134,11 +134,17 @@ export default function CarDetailPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <img
-            src={car.imageUrl || '/cars/placeholder.svg'}
-            alt={`${car.make} ${car.model}`}
-            className="w-full h-96 object-cover"
-          />
+          {car.imageUrl ? (
+            <img
+              src={car.imageUrl}
+              alt={`${car.make} ${car.model}`}
+              className="w-full h-96 object-cover"
+            />
+          ) : (
+            <div className="w-full h-96 bg-gray-200 flex items-center justify-center">
+              <span className="text-gray-400 text-xl">No image available</span>
+            </div>
+          )}
           
           <div className="p-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">

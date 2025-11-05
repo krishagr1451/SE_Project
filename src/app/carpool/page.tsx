@@ -52,9 +52,9 @@ export default function CarpoolPage() {
 
   const fetchCarpools = async () => {
     try {
-  const response = await fetch('/api/carpool')
+      const response = await fetch('/api/carpool')
       const data = await response.json()
-      setCarpools(data.carpools || [])
+      setCarpools(data || [])
     } catch (error) {
       console.error('Failed to fetch carpools:', error)
       setCarpools([])

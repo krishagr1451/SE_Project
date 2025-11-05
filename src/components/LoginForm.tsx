@@ -120,7 +120,7 @@ export default function LoginForm() {
     setLoading(true)
 
     try {
-      // Use backend API server
+      // Call Next.js API route (runs with the app)
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -151,7 +151,8 @@ export default function LoginForm() {
       // Force a page refresh to update navbar
       window.location.reload()
     } catch (err) {
-      setError('Network error')
+      console.error('Login error:', err)
+      setError('Unable to reach the server. Please refresh the page and try again.')
     } finally {
       setLoading(false)
     }

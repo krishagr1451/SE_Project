@@ -110,9 +110,9 @@ export default function CarsPage() {
 
   const fetchCars = async () => {
     try {
-  const response = await fetch('/api/cars')
+      const response = await fetch('/api/cars')
       const data = await response.json()
-      setCars(data.cars || [])
+      setCars(data || [])
     } catch (error) {
       console.error('Failed to fetch cars:', error)
       setCars([])
@@ -164,11 +164,17 @@ export default function CarsPage() {
                 key={car.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <img
-                  src={car.imageUrl || '/cars/placeholder.svg'}
-                  alt={`${car.make} ${car.model}`}
-                  className="w-full h-48 object-cover"
-                />
+                {car.imageUrl ? (
+                  <img
+                    src={car.imageUrl}
+                    alt={`${car.make} ${car.model}`}
+                    className="w-full h-48 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-400">No image</span>
+                  </div>
+                )}
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
                     {car.make} {car.model} ({car.year})

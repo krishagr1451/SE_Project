@@ -51,7 +51,7 @@ export default function RegisterForm() {
     setLoading(true)
 
     try {
-      // Use Next.js API routes (works on Vercel)
+      // Call Next.js API route (runs with the app)
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,19 +77,18 @@ export default function RegisterForm() {
         localStorage.setItem('token', data.token)
       }
 
-      // Store auth token and user info (keeps consistency with LoginForm and AuthContext)
+      // Store auth token and user info
       localStorage.setItem('auth', JSON.stringify({
         token: data.token,
         user: data.user
       }))
 
-      // Registration successful
+      // Registration successful, redirect to dashboard
       alert('Registration successful! Welcome to Drive Hire!')
-      router.push('/')
-      // Force a refresh so navbar/auth state updates immediately
-      window.location.reload()
+      router.push('/dashboard')
     } catch (err) {
-      setError('Network error')
+      console.error('Registration error:', err)
+      setError('Unable to reach the server. Please refresh the page and try again.')
     } finally {
       setLoading(false)
     }

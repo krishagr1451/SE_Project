@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from './generated/client'
 import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
@@ -94,7 +94,6 @@ async function main() {
       licensePlate: 'MH 02 AB 1234',
       status: 'AVAILABLE',
       description: 'Well-maintained Maruti Swift with excellent mileage. Perfect for city drives.',
-      imageUrl: '/cars/swift.svg',
       available: true,
       ownerId: driver1.id,
     },
@@ -112,7 +111,6 @@ async function main() {
       licensePlate: 'KA 03 CD 5678',
       status: 'AVAILABLE',
       description: 'Spacious SUV ideal for family trips. AC, music system, and comfortable seating.',
-      imageUrl: '/cars/creta.svg',
       available: true,
       ownerId: driver3.id,
     },
@@ -130,7 +128,6 @@ async function main() {
       licensePlate: 'DL 07 EF 9012',
       status: 'AVAILABLE',
       description: 'Brand new Tata Nexon EV. Eco-friendly electric car with great features.',
-      imageUrl: '/cars/nexon-ev.svg',
       available: true,
       ownerId: driver2.id,
     },
@@ -148,7 +145,6 @@ async function main() {
       licensePlate: 'MH 01 GH 3456',
       status: 'AVAILABLE',
       description: 'Honda City with smooth drive and excellent comfort. Great for long drives.',
-      imageUrl: '/cars/city.svg',
       available: true,
       ownerId: driver1.id,
     },
@@ -166,7 +162,6 @@ async function main() {
       licensePlate: 'KA 05 IJ 7890',
       status: 'AVAILABLE',
       description: 'Premium SUV with advanced safety features. Perfect for highway trips.',
-      imageUrl: '/cars/xuv700.svg',
       available: true,
       ownerId: driver3.id,
     },
@@ -174,12 +169,28 @@ async function main() {
 
   console.log('✅ Cars created')
 
-  // Create sample carpools
+  // Create sample carpools with future dates
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  tomorrow.setHours(8, 0, 0, 0)
+
+  const dayAfterTomorrow = new Date()
+  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2)
+  dayAfterTomorrow.setHours(9, 0, 0, 0)
+
+  const nextWeek = new Date()
+  nextWeek.setDate(nextWeek.getDate() + 7)
+  nextWeek.setHours(8, 30, 0, 0)
+
+  const weekend = new Date()
+  weekend.setDate(weekend.getDate() + 3)
+  weekend.setHours(6, 0, 0, 0)
+
   await prisma.carpool.create({
     data: {
       from: 'Andheri, Mumbai, Maharashtra',
       to: 'Pune, Maharashtra',
-      departureTime: new Date('2025-11-01T08:00:00'),
+      departureTime: tomorrow,
       availableSeats: 3,
       pricePerSeat: 400,
       description: 'Daily commute from Mumbai to Pune. Comfortable ride with AC.',
@@ -191,7 +202,7 @@ async function main() {
     data: {
       from: 'Sector 18, Noida, Uttar Pradesh',
       to: 'Connaught Place, New Delhi, Delhi',
-      departureTime: new Date('2025-11-01T09:00:00'),
+      departureTime: dayAfterTomorrow,
       availableSeats: 2,
       pricePerSeat: 150,
       description: 'Morning commute to Delhi. Quick and affordable ride.',
@@ -203,7 +214,7 @@ async function main() {
     data: {
       from: 'Electronic City, Bangalore, Karnataka',
       to: 'MG Road, Bangalore, Karnataka',
-      departureTime: new Date('2025-11-01T08:30:00'),
+      departureTime: nextWeek,
       availableSeats: 4,
       pricePerSeat: 100,
       description: 'Office commute within Bangalore. Save money and avoid traffic.',
@@ -215,7 +226,7 @@ async function main() {
     data: {
       from: 'Mumbai, Maharashtra',
       to: 'Goa, Goa',
-      departureTime: new Date('2025-11-05T06:00:00'),
+      departureTime: weekend,
       availableSeats: 3,
       pricePerSeat: 1200,
       description: 'Weekend trip to Goa! Share the ride and have fun. Music and good vibes.',

@@ -65,7 +65,7 @@ export default function MyBookingsPage() {
     try {
       const token = localStorage.getItem('token')
       const response = await fetch(`/api/bookings/${bookingId}`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

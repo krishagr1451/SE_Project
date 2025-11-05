@@ -15,6 +15,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
+    // Check if user exists
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId }
+    })
+
+    if (!user) {
+      console.error('User not found:', decoded.userId)
+      return NextResponse.json({ 
+        error: 'User not found. Please log in again.' 
+      }, { status: 404 })
+    }
+
     const body = await request.json()
     const {
       pickupLocation,
@@ -23,8 +35,30 @@ export async function POST(request: NextRequest) {
       dropoffLocation,
       dropoffLat,
       dropoffLng,
+      vehicleType = 'AUTO',
       paymentMethod = 'cash'
     } = body
+
+    console.log('Creating ride with data:', {
+      passengerId: decoded.userId,
+      pickupLocation,
+      pickupLat,
+      pickupLng,
+      dropoffLocation,
+      dropoffLat,
+      dropoffLng,
+      vehicleType,
+      paymentMethod
+    })
+
+    // Validate required fields
+    if (!pickupLocation || !dropoffLocation) {
+      return NextResponse.json({ error: 'Pickup and dropoff locations are required' }, { status: 400 })
+    }
+
+    if (!pickupLat || !pickupLng || !dropoffLat || !dropoffLng) {
+      return NextResponse.json({ error: 'Location coordinates are required' }, { status: 400 })
+    }
 
     // Calculate fare based on distance (basic calculation)
     const distance = calculateDistance(pickupLat, pickupLng, dropoffLat, dropoffLng)
@@ -42,6 +76,7 @@ export async function POST(request: NextRequest) {
         dropoffLocation,
         dropoffLat,
         dropoffLng,
+        vehicleType,
         fare,
         distance,
         estimatedTime,
@@ -62,7 +97,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(ride, { status: 201 })
   } catch (error) {
     console.error('Error creating ride:', error)
-    return NextResponse.json({ error: 'Failed to create ride' }, { status: 500 })
+    // Return detailed error message for debugging
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create ride'
+    return NextResponse.json({ 
+      error: 'Failed to create ride',
+      details: errorMessage 
+    }, { status: 500 })
   }
 }
 

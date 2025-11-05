@@ -6,6 +6,7 @@ import { signToken } from '@/lib/auth'
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
+    console.log('[API] /api/auth/login POST', { email })
 
     if (!email || !password) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 })
@@ -37,6 +38,7 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
+    console.error('[API] /api/auth/login error', error)
     return NextResponse.json({ error: 'Login failed' }, { status: 500 })
   }
 }

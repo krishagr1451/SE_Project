@@ -45,7 +45,7 @@ export default function BookingsPage() {
         headers: { Authorization: authHeader },
       })
       const data = await response.json()
-      setBookings(data.bookings || [])
+      setBookings(data || [])
     } catch (error) {
       console.error('Failed to fetch bookings:', error)
       setBookings([])

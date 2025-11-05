@@ -54,7 +54,7 @@ export default function MyRidesPage() {
       }
 
       const data = await response.json()
-      setRides(data.rides || [])
+      setRides(data || [])
     } catch (error) {
       console.error('Error fetching rides:', error)
       setRides([])
