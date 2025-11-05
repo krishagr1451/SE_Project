@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import Navbar from '@/components/Navbar'
 
 interface Booking {
   id: string
@@ -115,8 +114,6 @@ export default function MyBookingsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-teal-50">
-      <Navbar />
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div

@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Navbar from '@/components/Navbar'
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -83,8 +82,6 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-slate-50">
-      <Navbar />
-      
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
