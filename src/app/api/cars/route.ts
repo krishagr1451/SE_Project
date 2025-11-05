@@ -18,14 +18,34 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const auth = getAuthFromHeader(request.headers.get('authorization'))
-    if (!auth) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!auth) {
+      console.log('❌ No auth found in header')
+      return NextResponse.json({ error: 'Unauthorized - Please log in' }, { status: 401 })
+    }
+
+    console.log('✅ Auth found:', auth)
 
     // Ensure driver and verified
     const user = await prisma.user.findUnique({ where: { id: auth.userId } })
+    
+    if (!user) {
+      console.log('❌ User not found:', auth.userId)
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    console.log('✅ User found:', { id: user.id, role: (user as any)?.role, isVerified: (user as any)?.isVerified })
+
     const role = (user as any)?.role ?? 'PASSENGER'
     const isVerified = (user as any)?.isVerified ?? false
-    if (role !== 'DRIVER' || !isVerified) {
-      return NextResponse.json({ error: 'Only verified drivers can add cars' }, { status: 403 })
+    
+    if (role !== 'DRIVER') {
+      console.log('❌ User is not a driver, role:', role)
+      return NextResponse.json({ error: 'Only drivers can add cars. Please register as a driver.' }, { status: 403 })
+    }
+    
+    if (!isVerified) {
+      console.log('❌ Driver is not verified')
+      return NextResponse.json({ error: 'Your driver account is not verified yet. Please wait for admin approval.' }, { status: 403 })
     }
 
     const body = await request.json()
@@ -50,8 +70,10 @@ export async function POST(request: NextRequest) {
     }
 
     const car = await prisma.car.create({ data })
+    console.log('✅ Car created:', car.id)
     return NextResponse.json(car, { status: 201 })
   } catch (error) {
+    console.error('❌ Error creating car:', error)
     return NextResponse.json({ error: 'Failed to create car' }, { status: 500 })
   }
 }
