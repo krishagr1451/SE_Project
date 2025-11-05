@@ -43,7 +43,7 @@ export default function MyRidesPage() {
 
       const { token } = JSON.parse(auth)
 
-      const response = await fetch('http://localhost:4000/api/rides?type=myrides', {
+      const response = await fetch('/api/rides?type=myrides', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

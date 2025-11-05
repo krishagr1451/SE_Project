@@ -49,7 +49,7 @@ export default function MyCarsPage() {
         return
       }
 
-      const res = await fetch('http://localhost:4000/api/cars', {
+      const res = await fetch('/api/cars', {
         headers: { Authorization: `Bearer ${token}` }
       })
 
@@ -73,7 +73,7 @@ export default function MyCarsPage() {
       const token = localStorage.getItem('token')
       if (!token) return
 
-      const res = await fetch(`http://localhost:4000/api/cars/${carId}`, {
+      const res = await fetch(`/api/cars/${carId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ available: !currentStatus })
@@ -91,7 +91,7 @@ export default function MyCarsPage() {
       const token = localStorage.getItem('token')
       if (!token) return
 
-      const res = await fetch(`http://localhost:4000/api/cars/${carId}`, {
+      const res = await fetch(`/api/cars/${carId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       })

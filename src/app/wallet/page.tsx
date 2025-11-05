@@ -14,8 +14,6 @@ interface Transaction {
   status: 'COMPLETED' | 'PENDING' | 'FAILED'
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
-
 export default function WalletPage() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
@@ -44,7 +42,7 @@ export default function WalletPage() {
       const { token } = JSON.parse(auth)
 
       // Fetch wallet balance
-      const walletResponse = await fetch(`${API_URL}/api/wallet`, {
+      const walletResponse = await fetch(`/api/wallet`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -58,7 +56,7 @@ export default function WalletPage() {
       setBalance(walletData.wallet?.balance || 0)
 
       // Fetch transactions
-      const transactionsResponse = await fetch(`${API_URL}/api/wallet/transactions`, {
+      const transactionsResponse = await fetch(`/api/wallet/transactions`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -83,7 +81,7 @@ export default function WalletPage() {
       setTransactions(transformedTransactions)
     } catch (error) {
       console.error('Error fetching wallet data:', error)
-      setError('Unable to connect to server. Please make sure the backend is running on port 4000.')
+      setError('Unable to connect to server. Please try again later.')
     } finally {
       setLoading(false)
     }
@@ -99,7 +97,7 @@ export default function WalletPage() {
 
         const { token } = JSON.parse(auth)
 
-        const response = await fetch(`${API_URL}/api/wallet/add`, {
+        const response = await fetch(`/api/wallet/add`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

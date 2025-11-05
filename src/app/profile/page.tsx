@@ -51,7 +51,7 @@ export default function ProfilePage() {
     setLoadingHistory(true)
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:4000/api/rides?type=myrides', {
+      const response = await fetch('/api/rides?type=myrides', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -83,7 +83,7 @@ export default function ProfilePage() {
         return
       }
 
-      const response = await fetch('http://localhost:4000/api/auth/verify', {
+      const response = await fetch('/api/auth/verify', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

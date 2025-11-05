@@ -41,7 +41,7 @@ export default function BookingsPage() {
         return
       }
 
-      const response = await fetch('http://localhost:4000/api/bookings', {
+      const response = await fetch('/api/bookings', {
         headers: { Authorization: authHeader },
       })
       const data = await response.json()

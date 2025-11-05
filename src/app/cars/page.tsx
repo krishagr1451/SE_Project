@@ -110,7 +110,7 @@ export default function CarsPage() {
 
   const fetchCars = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/cars')
+  const response = await fetch('/api/cars')
       const data = await response.json()
       setCars(data.cars || [])
     } catch (error) {

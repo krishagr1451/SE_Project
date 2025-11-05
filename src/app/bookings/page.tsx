@@ -42,7 +42,7 @@ export default function MyBookingsPage() {
         return
       }
 
-      const response = await fetch('http://localhost:4000/api/bookings', {
+      const response = await fetch('/api/bookings', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -64,8 +64,8 @@ export default function MyBookingsPage() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:4000/api/bookings/${bookingId}`, {
-        method: 'PUT',
+      const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
