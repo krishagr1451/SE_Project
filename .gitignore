@@ -45,6 +45,12 @@ next-env.d.ts
 node_modules/
 server/node_modules/
 
+# prisma generated client (legacy)
+prisma/generated/
+
+# legacy server folder
+server/
+
 # server build artifacts and env
 server/dist/
 server/build/
