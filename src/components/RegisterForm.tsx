@@ -110,7 +110,9 @@ export default function RegisterForm() {
           exit={{ opacity: 0, x: 20 }}
           className="mb-4 p-3 bg-red-100 text-red-800 rounded-lg border border-red-200 flex items-center"
         >
-          <span className="mr-2">⚠️</span>
+          <svg className="mr-2 w-5 h-5 text-red-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.72-1.36 3.486 0l5.516 9.808A1.75 1.75 0 0116.516 15H3.484a1.75 1.75 0 01-1.743-2.093L8.257 3.1zM9 7a1 1 0 112 0v3a1 1 0 11-2 0V7zm1 7a1.25 1.25 0 100-2.5A1.25 1.25 0 0010 14z" clipRule="evenodd" />
+          </svg>
           {error}
         </motion.div>
       )}
@@ -185,8 +187,8 @@ export default function RegisterForm() {
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none bg-white"
           required
         >
-          <option value="PASSENGER">🚗 Passenger - Book rides</option>
-          <option value="DRIVER">🚙 Driver - Offer rides</option>
+          <option value="PASSENGER">Passenger - Book rides</option>
+          <option value="DRIVER">Driver - Offer rides</option>
         </select>
         <p className="text-xs text-gray-500 mt-1">
           {formData.role === 'DRIVER' 
@@ -204,7 +206,7 @@ export default function RegisterForm() {
           transition={{ delay: 0.1 }}
         >
           <label className="block text-sm font-semibold mb-2 text-gray-700">
-            Driver's License Number <span className="text-red-500">*</span>
+            Driver&apos;s License Number <span className="text-red-500">*</span>
           </label>
           <motion.input
             type="text"
@@ -242,8 +244,9 @@ export default function RegisterForm() {
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? '👁️' : '👁️‍🗨️'}
+            {showPassword ? 'Hide' : 'Show'}
           </button>
         </div>
       </motion.div>
@@ -270,8 +273,9 @@ export default function RegisterForm() {
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
           >
-            {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+            {showConfirmPassword ? 'Hide' : 'Show'}
           </button>
         </div>
       </motion.div>

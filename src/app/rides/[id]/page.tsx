@@ -146,12 +146,12 @@ export default function RideDetailsPage({ params }: { params: { id: string } }) 
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'SEARCHING': return '🔍 Searching for a driver...'
-      case 'ACCEPTED': return '✅ Driver accepted your ride'
-      case 'ARRIVED': return '📍 Driver has arrived'
-      case 'IN_PROGRESS': return '🚗 Ride in progress'
-      case 'COMPLETED': return '✔️ Ride completed'
-      case 'CANCELLED': return '❌ Ride cancelled'
+      case 'SEARCHING': return 'Searching for a driver...'
+      case 'ACCEPTED': return 'Driver accepted your ride'
+      case 'ARRIVED': return 'Driver has arrived'
+      case 'IN_PROGRESS': return 'Ride in progress'
+      case 'COMPLETED': return 'Ride completed'
+      case 'CANCELLED': return 'Ride cancelled'
       default: return status
     }
   }
@@ -195,10 +195,12 @@ export default function RideDetailsPage({ params }: { params: { id: string } }) 
               {ride.status === 'SEARCHING' && (
                 <div className="text-center py-8">
                   <div className="inline-block animate-pulse">
-                    <div className="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center text-white text-2xl mb-4 mx-auto">
-                      🔍
+                      <div className="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center text-white text-2xl mb-4 mx-auto">
+                        <svg className="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M8 4a4 4 0 104 4 4 4 0 00-4-4zm-6 8a6 6 0 1110.89 3.476l3.817 3.816a1 1 0 11-1.414 1.415l-3.816-3.818A6 6 0 012 12z" clipRule="evenodd" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
                   <p className="text-gray-600">Looking for nearby drivers...</p>
                   <p className="text-sm text-gray-500 mt-2">This usually takes 1-2 minutes</p>
                 </div>
@@ -217,8 +219,8 @@ export default function RideDetailsPage({ params }: { params: { id: string } }) 
               <div className="space-y-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3">
-                    📍
-                  </div>
+                      <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a6 6 0 00-6 6c0 4 6 10 6 10s6-6 6-10a6 6 0 00-6-6z"/></svg>
+                    </div>
                   <div>
                     <p className="text-sm text-gray-500">Pickup</p>
                     <p className="font-medium">{ride.pickupLocation}</p>
@@ -229,7 +231,7 @@ export default function RideDetailsPage({ params }: { params: { id: string } }) 
 
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-3">
-                    📌
+                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5 3l10 10-2 2L3 5V3h2z"/></svg>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Dropoff</p>

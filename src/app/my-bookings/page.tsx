@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { getAuthHeader } from '@/lib/storage'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface Booking {
   id: string
@@ -81,20 +82,20 @@ export default function BookingsPage() {
 
         {bookings.length === 0 ? (
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <p className="text-gray-500 text-lg mb-4">You don't have any bookings yet.</p>
+            <p className="text-gray-500 text-lg mb-4">You don&apos;t have any bookings yet.</p>
             <div className="flex justify-center gap-4">
-              <a
+              <Link
                 href="/cars"
                 className="rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
               >
                 Browse Cars
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/carpool"
                 className="rounded-md bg-gray-200 px-6 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300"
               >
                 Find Carpools
-              </a>
+              </Link>
             </div>
           </div>
         ) : (

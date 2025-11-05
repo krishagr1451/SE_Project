@@ -57,9 +57,9 @@ export default function VerificationRequiredPage() {
             transition={{ delay: 0.5 }}
             className="bg-indigo-50 rounded-lg p-4 mb-6 text-left"
           >
-            <h3 className="font-semibold text-indigo-900 mb-2">What's being verified?</h3>
+            <h3 className="font-semibold text-indigo-900 mb-2">What&apos;s being verified?</h3>
             <ul className="text-sm text-indigo-700 space-y-1">
-              <li>✓ Driver's license validity</li>
+              <li>✓ Driver&apos;s license validity</li>
               <li>✓ Identity confirmation</li>
               <li>✓ Background check</li>
             </ul>
@@ -72,7 +72,7 @@ export default function VerificationRequiredPage() {
             className="bg-blue-50 rounded-lg p-4 mb-6"
           >
             <p className="text-sm text-blue-800">
-              Didn't receive the email?{' '}
+              Didn&apos;t receive the email?{' '}
               <button className="underline font-semibold hover:text-blue-600">
                 Resend verification link
               </button>
@@ -106,7 +106,7 @@ export default function VerificationRequiredPage() {
           transition={{ delay: 0.7 }}
           className="text-xs text-gray-500 mt-6"
         >
-          You'll receive an email notification once verification is complete
+          You&apos;ll receive an email notification once verification is complete
         </motion.p>
       </motion.div>
     </div>

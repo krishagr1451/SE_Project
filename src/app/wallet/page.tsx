@@ -131,7 +131,7 @@ export default function WalletPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">💰 My Wallet</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">My Wallet</h1>
           <p className="text-gray-600">Manage your payments and transactions</p>
         </motion.div>
 
@@ -147,13 +147,13 @@ export default function WalletPage() {
               <p className="text-green-100 mb-2">Available Balance</p>
               <h2 className="text-5xl font-bold">₹{balance.toLocaleString()}</h2>
             </div>
-            <div className="text-6xl">💳</div>
+            <div className="text-6xl"> </div>
           </div>
           <button
             onClick={() => setShowAddMoney(!showAddMoney)}
             className="w-full bg-white text-green-600 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors"
           >
-            ➕ Add Money
+            Add Money
           </button>
         </motion.div>
 
@@ -230,19 +230,19 @@ export default function WalletPage() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
         >
           <button className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow text-center">
-            <div className="text-3xl mb-2">💳</div>
+            <div className="text-3xl mb-2"> </div>
             <p className="text-sm font-medium text-gray-700">UPI</p>
           </button>
           <button className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow text-center">
-            <div className="text-3xl mb-2">🏦</div>
+            <div className="text-3xl mb-2"> </div>
             <p className="text-sm font-medium text-gray-700">Bank</p>
           </button>
           <button className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow text-center">
-            <div className="text-3xl mb-2">💰</div>
+            <div className="text-3xl mb-2"> </div>
             <p className="text-sm font-medium text-gray-700">Cash</p>
           </button>
           <button className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow text-center">
-            <div className="text-3xl mb-2">🎁</div>
+            <div className="text-3xl mb-2"> </div>
             <p className="text-sm font-medium text-gray-700">Offers</p>
           </button>
         </motion.div>
@@ -254,11 +254,11 @@ export default function WalletPage() {
           transition={{ delay: 0.3 }}
           className="bg-white rounded-xl shadow-lg p-6"
         >
-          <h3 className="text-xl font-bold text-gray-900 mb-6">📊 Transaction History</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-6">Transaction History</h3>
           
           {transactions.length === 0 ? (
             <div className="text-center py-8">
-              <div className="text-4xl mb-2">💸</div>
+              <div className="text-4xl mb-2"> </div>
               <p className="text-gray-600">No transactions yet</p>
             </div>
           ) : (
@@ -272,7 +272,7 @@ export default function WalletPage() {
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
                       transaction.type === 'CREDIT' ? 'bg-green-100' : 'bg-red-100'
                     }`}>
-                      {transaction.type === 'CREDIT' ? '⬇️' : '⬆️'}
+                      {transaction.type === 'CREDIT' ? 'IN' : 'OUT'}
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">{transaction.description}</p>

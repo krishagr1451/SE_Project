@@ -92,7 +92,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">⚙️ Settings</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Settings</h1>
           <p className="text-gray-600">Manage your app preferences</p>
         </motion.div>
 
@@ -104,7 +104,7 @@ export default function SettingsPage() {
           className="bg-white rounded-xl shadow-sm p-6 mb-6"
         >
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            🔔 Notifications
+            Notifications
           </h2>
           <div className="space-y-4">
             {Object.entries(settings.notifications).map(([key, value]) => (
@@ -135,7 +135,7 @@ export default function SettingsPage() {
           className="bg-white rounded-xl shadow-sm p-6 mb-6"
         >
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            🔒 Privacy
+            Privacy
           </h2>
           <div className="space-y-4">
             {Object.entries(settings.privacy).map(([key, value]) => (
@@ -166,7 +166,7 @@ export default function SettingsPage() {
           className="bg-white rounded-xl shadow-sm p-6 mb-6"
         >
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            🎨 Preferences
+            Preferences
           </h2>
           <div className="space-y-4">
             <div>
@@ -210,9 +210,9 @@ export default function SettingsPage() {
                 }))}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
-                <option value="light">☀️ Light</option>
-                <option value="dark">🌙 Dark</option>
-                <option value="auto">🔄 Auto</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="auto">Auto</option>
               </select>
             </div>
           </div>
@@ -226,7 +226,7 @@ export default function SettingsPage() {
           className="bg-white rounded-xl shadow-sm p-6 mb-6"
         >
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            🛡️ Safety
+            Safety
           </h2>
           <div className="space-y-4 mb-4">
             {Object.entries(settings.safety).filter(([key]) => key !== 'emergencyContacts').map(([key, value]) => (
@@ -253,7 +253,7 @@ export default function SettingsPage() {
             <div className="space-y-2 mb-3">
               {settings.safety.emergencyContacts.map((contact, index) => (
                 <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                  <span className="font-medium">📞 {contact}</span>
+                  <span className="font-medium">{contact}</span>
                   <button
                     onClick={() => removeEmergencyContact(contact)}
                     className="text-red-600 hover:text-red-700 font-medium"
@@ -289,19 +289,19 @@ export default function SettingsPage() {
           transition={{ delay: 0.5 }}
           className="bg-white rounded-xl shadow-sm p-6 border-2 border-red-200"
         >
-          <h2 className="text-xl font-bold text-red-600 mb-4">⚠️ Danger Zone</h2>
+          <h2 className="text-xl font-bold text-red-600 mb-4">Danger Zone</h2>
           <div className="space-y-3">
             <button className="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors font-semibold">
-              🔄 Clear Cache
+              Clear Cache
             </button>
             <button className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-semibold">
-              📱 Reset App
+              Reset App
             </button>
             <button
               onClick={handleDeleteAccount}
               className="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
             >
-              🗑️ Delete Account
+              Delete Account
             </button>
           </div>
         </motion.div>
@@ -317,7 +317,7 @@ export default function SettingsPage() {
             onClick={() => alert('Settings saved successfully!')}
             className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-colors font-bold text-lg shadow-lg"
           >
-            💾 Save Settings
+            Save Settings
           </button>
         </motion.div>
       </div>

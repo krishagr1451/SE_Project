@@ -39,36 +39,10 @@ export default function CarsPage() {
       router.push('/login')
       return
     }
-
     if (user) {
       fetchCars()
     }
   }, [user, authLoading, router])
-
-  // Show loading state
-  if (authLoading || !user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  const fetchCars = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/api/cars')
-      const data = await response.json()
-      setCars(data.cars || [])
-    } catch (error) {
-      console.error('Failed to fetch cars:', error)
-      setCars([])
-    } finally {
-      setLoading(false)
-    }
-  }
 
   // Geocode locations (server-side proxy to Nominatim)
   useEffect(() => {
@@ -121,6 +95,31 @@ export default function CarsPage() {
       mounted = false
     }
   }, [cars])
+
+  // Show loading state
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  const fetchCars = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/cars')
+      const data = await response.json()
+      setCars(data.cars || [])
+    } catch (error) {
+      console.error('Failed to fetch cars:', error)
+      setCars([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (loading) {
     return (

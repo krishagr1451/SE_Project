@@ -184,7 +184,7 @@ export default function HelpPage() {
           className="bg-red-50 border-2 border-red-200 rounded-2xl p-6 text-center"
         >
           <h3 className="text-2xl font-bold text-red-600 mb-2">🚨 Emergency?</h3>
-          <p className="text-gray-700 mb-4">If you're in immediate danger, call emergency services or use our SOS feature</p>
+          <p className="text-gray-700 mb-4">If you&apos;re in immediate danger, call emergency services or use our SOS feature</p>
           <div className="flex gap-4 justify-center">
             <a href="tel:100" className="px-8 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-colors">
               📞 Call 100

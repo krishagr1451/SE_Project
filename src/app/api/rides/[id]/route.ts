@@ -19,7 +19,6 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
-    // @ts-ignore
     const ride = await prisma.ride.findUnique({
       where: { id },
       include: {
@@ -72,7 +71,6 @@ export async function PATCH(
     const body = await request.json()
     const { action } = body // 'accept', 'arrive', 'start', 'complete', 'cancel'
 
-    // @ts-ignore
     const ride = await prisma.ride.findUnique({
       where: { id },
     })
@@ -149,7 +147,6 @@ export async function PATCH(
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
-    // @ts-ignore
     const updatedRide = await prisma.ride.update({
       where: { id },
       data: updateData,

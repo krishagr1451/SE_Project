@@ -113,7 +113,7 @@ const vehicleOptions: VehicleOption[] = [
   {
     type: 'AUTO',
     name: 'Auto',
-    icon: '🛺',
+    icon: '',
     capacity: '3 seats',
     baseFare: 30,
     perKm: 12,
@@ -125,7 +125,7 @@ const vehicleOptions: VehicleOption[] = [
   {
     type: 'MINI',
     name: 'Mini',
-    icon: '🚗',
+    icon: '',
     capacity: '4 seats',
     baseFare: 50,
     perKm: 15,
@@ -137,7 +137,7 @@ const vehicleOptions: VehicleOption[] = [
   {
     type: 'SEDAN',
     name: 'Sedan',
-    icon: '🚙',
+    icon: '',
     capacity: '4 seats',
     baseFare: 80,
     perKm: 20,
@@ -149,7 +149,7 @@ const vehicleOptions: VehicleOption[] = [
   {
     type: 'SUV',
     name: 'SUV',
-    icon: '🚐',
+    icon: '',
     capacity: '6 seats',
     baseFare: 120,
     perKm: 25,
@@ -161,7 +161,7 @@ const vehicleOptions: VehicleOption[] = [
   {
     type: 'PREMIUM',
     name: 'Premium',
-    icon: '🚘',
+    icon: '',
     capacity: '4 seats',
     baseFare: 200,
     perKm: 35,
@@ -320,8 +320,8 @@ export default function BookRidePage() {
         throw new Error(errorData.error || 'Failed to book ride')
       }
 
-      const ride = await response.json()
-      alert('Ride booked successfully! 🚗')
+  const ride = await response.json()
+  alert('Ride booked successfully!')
       router.push(`/my-rides`)
     } catch (error) {
       console.error('Error booking ride:', error)
@@ -368,7 +368,7 @@ export default function BookRidePage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900">🚗 Book a Ride</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Book a Ride</h1>
           <p className="mt-2 text-gray-600">
             {step === 'location' ? 'Enter your pickup and drop-off locations' : 'Choose your ride'}
           </p>
@@ -383,7 +383,7 @@ export default function BookRidePage() {
               >
                 <div className="flex items-center justify-between">
                   <div className="text-white">
-                    <p className="text-sm font-semibold">✨ Multiple vehicle options available</p>
+                    <p className="text-sm font-semibold">Multiple vehicle options available</p>
                     <p className="text-xs opacity-90 mt-1">Auto • Mini • Sedan • SUV • Premium</p>
                   </div>
                   <div className="flex space-x-2">
@@ -424,7 +424,7 @@ export default function BookRidePage() {
             {/* Pickup Location */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                📍 Pickup Location
+                Pickup Location
               </label>
               <input
                 type="text"
@@ -473,12 +473,12 @@ export default function BookRidePage() {
               {pickupSuggestions.length > 0 && (
                 <div className="mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-10 relative">
                   {pickupSuggestions.map((suggestion, index) => (
-                    <button
+                      <button
                       key={index}
                       onClick={() => selectLocation(suggestion, 'pickup')}
                       className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-sm border-b border-gray-100 last:border-b-0"
                     >
-                      📍 {suggestion.display_name}
+                      {suggestion.display_name}
                     </button>
                   ))}
                 </div>
@@ -488,7 +488,7 @@ export default function BookRidePage() {
             {/* Dropoff Location */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                📌 Dropoff Location
+                Dropoff Location
               </label>
               <input
                 type="text"
@@ -537,12 +537,12 @@ export default function BookRidePage() {
               {dropoffSuggestions.length > 0 && (
                 <div className="mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-10 relative">
                   {dropoffSuggestions.map((suggestion, index) => (
-                    <button
+                      <button
                       key={index}
                       onClick={() => selectLocation(suggestion, 'dropoff')}
                       className="w-full text-left px-4 py-2 hover:bg-indigo-50 text-sm border-b border-gray-100 last:border-b-0"
                     >
-                      📌 {suggestion.display_name}
+                      {suggestion.display_name}
                     </button>
                   ))}
                 </div>
@@ -592,7 +592,7 @@ export default function BookRidePage() {
 
                   {/* Vehicle Type Preview Banner */}
                   <div className="mb-6 p-4 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-xl border border-indigo-100">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3">🚗 Available Vehicles</h4>
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Available Vehicles</h4>
                     <div className="grid grid-cols-5 gap-2">
                       {vehicleOptions.map((vehicle) => (
                         <div key={vehicle.type} className="flex flex-col items-center">

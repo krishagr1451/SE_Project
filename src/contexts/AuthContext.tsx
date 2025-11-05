@@ -49,7 +49,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Initial load from localStorage
-    refreshUser().finally(() => setLoading(false))
+    // use an async IIFE and guard mounted state to avoid setting state after unmount
+    let mounted = true
+    ;(async () => {
+      await refreshUser()
+      if (mounted) setLoading(false)
+    })()
+    return () => {
+      mounted = false
+    }
   }, [])
 
   return (

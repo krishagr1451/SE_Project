@@ -180,7 +180,9 @@ export default function LoginForm() {
           exit={{ opacity: 0, x: 20 }}
           className="mb-4 p-3 bg-red-100 text-red-800 rounded-lg border border-red-200 flex items-center"
         >
-          <span className="mr-2">⚠️</span>
+          <svg className="mr-2 w-5 h-5 text-red-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.72-1.36 3.486 0l5.516 9.808A1.75 1.75 0 0116.516 15H3.484a1.75 1.75 0 01-1.743-2.093L8.257 3.1zM9 7a1 1 0 112 0v3a1 1 0 11-2 0V7zm1 7a1.25 1.25 0 100-2.5A1.25 1.25 0 0010 14z" clipRule="evenodd" />
+          </svg>
           {error}
         </motion.div>
       )}

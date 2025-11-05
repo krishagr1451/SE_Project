@@ -659,7 +659,7 @@ app.get('/api/rides', authenticateToken, async (req: AuthRequest, res: Response,
   try {
     const { type } = req.query
 
-    let where: any = {}
+  const where: any = {}
 
     if (type === 'myrides') {
       where.passengerId = req.userId

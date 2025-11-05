@@ -46,8 +46,8 @@ export default function Home() {
               <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6">
                 Welcome to <span className="text-indigo-600">Drive Hire</span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                Your trusted ride-sharing platform connecting passengers and drivers across India 🇮🇳
+                <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                Your trusted ride-sharing platform connecting passengers and drivers across India
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -77,7 +77,11 @@ export default function Home() {
           >
             {/* Feature 1 */}
             <div className="bg-white rounded-xl shadow-xl p-8 hover:shadow-2xl transition-shadow">
-              <div className="text-4xl mb-4">🚗</div>
+              <div className="text-4xl mb-4">
+                <svg className="w-10 h-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M5 11h14v2H5z" />
+                </svg>
+              </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Book Instant Rides</h3>
               <p className="text-gray-600">
                 Get rides instantly at affordable prices. Travel comfortably across cities with verified drivers.
@@ -86,7 +90,11 @@ export default function Home() {
 
             {/* Feature 2 */}
             <div className="bg-white rounded-xl shadow-xl p-8 hover:shadow-2xl transition-shadow">
-              <div className="text-4xl mb-4">🚙</div>
+              <div className="text-4xl mb-4">
+                <svg className="w-10 h-10 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Rent Premium Cars</h3>
               <p className="text-gray-600">
                 Choose from a wide range of cars for hourly or daily rentals. Drive yourself or with a driver.
@@ -95,7 +103,11 @@ export default function Home() {
 
             {/* Feature 3 */}
             <div className="bg-white rounded-xl shadow-xl p-8 hover:shadow-2xl transition-shadow">
-              <div className="text-4xl mb-4">👥</div>
+              <div className="text-4xl mb-4">
+                <svg className="w-10 h-10 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+                </svg>
+              </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Share Carpools</h3>
               <p className="text-gray-600">
                 Save money by sharing rides with others going your way. Eco-friendly and budget-friendly.
@@ -126,7 +138,7 @@ export default function Home() {
                 <div className="text-indigo-200">Cities Covered</div>
               </div>
               <div>
-                <div className="text-4xl font-bold mb-2">4.8★</div>
+                <div className="text-4xl font-bold mb-2">4.8 / 5</div>
                 <div className="text-indigo-200">Average Rating</div>
               </div>
             </motion.div>
@@ -150,7 +162,7 @@ export default function Home() {
               href="/register"
               className="inline-flex items-center justify-center px-10 py-4 border border-transparent text-xl font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-all transform hover:scale-105 shadow-xl"
             >
-              Sign Up Now - It's Free!
+              Sign Up Now - It&apos;s Free!
             </Link>
           </motion.div>
         </div>
@@ -186,7 +198,9 @@ export default function Home() {
           >
             <Link href="/rides/book">
               <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer border-2 border-transparent hover:border-indigo-500">
-                <div className="text-6xl mb-6 text-center">🚗</div>
+                <div className="text-6xl mb-6 text-center">
+                  <svg className="w-16 h-16 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 11h18v2H3z"/></svg>
+                </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Book a Ride</h2>
                 <p className="text-gray-600 text-center mb-6">
                   Get instant rides with verified drivers. Safe, fast, and affordable.
@@ -215,7 +229,9 @@ export default function Home() {
           >
             <Link href="/cars">
               <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer border-2 border-transparent hover:border-green-500">
-                <div className="text-6xl mb-6 text-center">🚙</div>
+                <div className="text-6xl mb-6 text-center">
+                  <svg className="w-16 h-16 text-green-600 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10" /></svg>
+                </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Rent a Car</h2>
                 <p className="text-gray-600 text-center mb-6">
                   Browse premium cars for hourly or daily rentals. Drive yourself.
@@ -244,7 +260,9 @@ export default function Home() {
           >
             <Link href="/carpool">
               <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer border-2 border-transparent hover:border-purple-500">
-                <div className="text-6xl mb-6 text-center">👥</div>
+                <div className="text-6xl mb-6 text-center">
+                  <svg className="w-16 h-16 text-purple-600 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" /></svg>
+                </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Join Carpool</h2>
                 <p className="text-gray-600 text-center mb-6">
                   Share rides with others. Save money and help the environment.

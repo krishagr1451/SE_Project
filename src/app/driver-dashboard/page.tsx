@@ -181,12 +181,12 @@ export default function DriverDashboardPage() {
           <div className="bg-white rounded-xl p-4 shadow-sm">
             <div className="text-2xl mb-1">📅</div>
             <div className="text-2xl font-bold text-indigo-600">{stats.todayRides}</div>
-            <div className="text-xs text-gray-600">Today's Rides</div>
+            <div className="text-xs text-gray-600">Today&apos;s Rides</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm">
             <div className="text-2xl mb-1">💵</div>
             <div className="text-2xl font-bold text-pink-600">₹{stats.todayEarnings}</div>
-            <div className="text-xs text-gray-600">Today's Earnings</div>
+            <div className="text-xs text-gray-600">Today&apos;s Earnings</div>
           </div>
         </motion.div>
 

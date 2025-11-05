@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
     const fare = baseFare + (distance * perKmRate)
     const estimatedTime = Math.ceil(distance / 0.5) // Assuming 30 km/h average speed
 
-    // @ts-ignore - Prisma client regeneration needed
     const ride = await prisma.ride.create({
       data: {
         passengerId: decoded.userId,
@@ -87,7 +86,6 @@ export async function GET(request: NextRequest) {
 
     if (type === 'available') {
       // Get available rides for drivers
-      // @ts-ignore
       rides = await prisma.ride.findMany({
         where: {
           status: 'SEARCHING',
@@ -108,7 +106,6 @@ export async function GET(request: NextRequest) {
       })
     } else if (type === 'driverrides') {
       // Get rides accepted/completed by this driver
-      // @ts-ignore
       rides = await prisma.ride.findMany({
         where: {
           driverId: decoded.userId,
@@ -128,7 +125,6 @@ export async function GET(request: NextRequest) {
       })
     } else {
       // Get rides for this passenger
-      // @ts-ignore
       rides = await prisma.ride.findMany({
         where: {
           passengerId: decoded.userId,

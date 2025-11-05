@@ -97,7 +97,7 @@ export default function LoginPage() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-gray-600 text-lg"
           >
-            India's Premier Ride & Car Sharing Platform
+            India&apos;s Premier Ride & Car Sharing Platform
           </motion.p>
           <motion.p
             initial={{ opacity: 0 }}
@@ -124,7 +124,7 @@ export default function LoginPage() {
           className="mt-6 text-center"
         >
           <p className="text-gray-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/register" className="text-indigo-600 font-semibold hover:text-indigo-700 transition-colors">
               Sign up
             </Link>

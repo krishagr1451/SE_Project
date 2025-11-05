@@ -103,7 +103,7 @@ export default function MyRidesPage() {
               href="/rides/book"
               className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
             >
-              🚗 Book New Ride
+              Book New Ride
             </Link>
           </div>
         </motion.div>
@@ -119,7 +119,7 @@ export default function MyRidesPage() {
             animate={{ opacity: 1 }}
             className="text-center py-12 bg-white rounded-lg shadow-md"
           >
-            <div className="text-6xl mb-4">🚗</div>
+            <div className="text-6xl mb-4"></div>
             <p className="text-gray-600 text-lg mb-4">No rides yet</p>
             <Link
               href="/rides/book"
@@ -152,7 +152,7 @@ export default function MyRidesPage() {
                         
                         <div className="space-y-2">
                           <div className="flex items-start">
-                            <span className="text-green-600 mr-2">📍</span>
+                            <span className="text-green-600 mr-2"> </span>
                             <div>
                               <p className="text-xs text-gray-500">Pickup</p>
                               <p className="font-medium text-gray-900">{ride.pickupLocation}</p>
@@ -160,7 +160,7 @@ export default function MyRidesPage() {
                           </div>
                           
                           <div className="flex items-start">
-                            <span className="text-red-600 mr-2">📌</span>
+                            <span className="text-red-600 mr-2"> </span>
                             <div>
                               <p className="text-xs text-gray-500">Dropoff</p>
                               <p className="font-medium text-gray-900">{ride.dropoffLocation}</p>

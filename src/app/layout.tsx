@@ -1,21 +1,33 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Car Share App - Ride Together, Save Together",
-  description: "Find rides, share cars, and travel together with our carpooling platform",
+  title: "Drive Hire - Premium Ride-Sharing & Car Rental Platform",
+  description: "India's trusted ride-sharing platform. Book instant rides, rent premium cars, or join carpools. Safe, affordable, and reliable transportation across 50+ cities.",
+  keywords: "ride sharing, car rental, carpool, taxi booking, cab service, car hire, India transportation",
+  authors: [{ name: "Drive Hire" }],
+  openGraph: {
+    title: "Drive Hire - Premium Ride-Sharing & Car Rental",
+    description: "Book rides, rent cars, and share carpools across India",
+    type: "website",
+    locale: "en_IN",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#4F46E5",
 };
 
 export default function RootLayout({
@@ -25,11 +37,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body className={`${inter.variable} antialiased`}>
         <AuthProvider>
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </AuthProvider>
       </body>
     </html>
