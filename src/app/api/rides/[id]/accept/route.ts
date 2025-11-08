@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import jwt from 'jsonwebtoken'
-
-const prisma = new PrismaClient()
 
 function verifyAuth(req: NextRequest) {
   try {
@@ -21,7 +19,7 @@ function verifyAuth(req: NextRequest) {
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const auth = verifyAuth(req)
@@ -29,7 +27,7 @@ export async function POST(
       return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
     }
 
-    const rideId = params.id
+    const { id: rideId } = await params
 
     // Verify user is a driver
     const user = await prisma.user.findUnique({
@@ -94,8 +92,11 @@ export async function POST(
     })
   } catch (error) {
     console.error('Error accepting ride:', error)
-    return NextResponse.json({ error: 'internal error' }, { status: 500 })
-  } finally {
-    await prisma.$disconnect()
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Detailed error:', errorMessage)
+    return NextResponse.json({ 
+      error: 'internal error',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    }, { status: 500 })
   }
 }

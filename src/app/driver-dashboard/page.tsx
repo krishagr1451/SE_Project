@@ -25,8 +25,7 @@ interface Carpool {
   departureTime: string
   pricePerSeat: number
   availableSeats: number
-  totalSeats: number
-  status: string
+  totalSeats?: number
   bookings?: Array<{
     id: string
     user: {
@@ -79,6 +78,9 @@ export default function DriverDashboardPage() {
   })
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<TabType>('requests')
+  const [canceling, setCanceling] = useState<string | null>(null)
+  const [accepting, setAccepting] = useState<string | null>(null)
+  const [rejecting, setRejecting] = useState<string | null>(null)
 
   useEffect(() => {
     const authData = localStorage.getItem('auth')
@@ -178,6 +180,7 @@ export default function DriverDashboardPage() {
   }
 
   async function acceptRide(rideId: string) {
+    setAccepting(rideId)
     try {
       const auth = localStorage.getItem('auth')
       if (!auth) return
@@ -201,11 +204,14 @@ export default function DriverDashboardPage() {
       }
     } catch (error) {
       console.error('Error accepting ride:', error)
-      alert('Failed to accept ride')
+      alert('Failed to accept ride. Please try again.')
+    } finally {
+      setAccepting(null)
     }
   }
 
   async function rejectRide(rideId: string) {
+    setRejecting(rideId)
     try {
       const auth = localStorage.getItem('auth')
       if (!auth) return
@@ -223,9 +229,120 @@ export default function DriverDashboardPage() {
       if (response.ok) {
         alert('Ride rejected')
         fetchDashboardData() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(`Failed to reject ride: ${error.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error rejecting ride:', error)
+      alert('Failed to reject ride. Please try again.')
+    } finally {
+      setRejecting(null)
+    }
+  }
+
+  async function cancelRide(rideId: string) {
+    if (!confirm('Are you sure you want to cancel this ride? The passenger will be notified.')) {
+      return
+    }
+
+    setCanceling(rideId)
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/rides/${rideId}/driver-cancel`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('✅ Ride cancelled successfully')
+        fetchDashboardData() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to cancel ride')
+      }
+    } catch (error) {
+      console.error('Error canceling ride:', error)
+      alert('An error occurred while canceling the ride')
+    } finally {
+      setCanceling(null)
+    }
+  }
+
+  async function cancelCarpool(carpoolId: string) {
+    if (!confirm('Are you sure you want to cancel this carpool? All passengers will be notified.')) {
+      return
+    }
+
+    setCanceling(carpoolId)
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/carpool/${carpoolId}/cancel`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('✅ Carpool cancelled successfully')
+        fetchDashboardData() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to cancel carpool')
+      }
+    } catch (error) {
+      console.error('Error canceling carpool:', error)
+      alert('An error occurred while canceling the carpool')
+    } finally {
+      setCanceling(null)
+    }
+  }
+
+  async function cancelRental(rentalId: string) {
+    if (!confirm('Are you sure you want to cancel this car rental? The renter will be notified.')) {
+      return
+    }
+
+    setCanceling(rentalId)
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/bookings/${rentalId}/driver-cancel`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('✅ Car rental cancelled successfully')
+        fetchDashboardData() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to cancel rental')
+      }
+    } catch (error) {
+      console.error('Error canceling rental:', error)
+      alert('An error occurred while canceling the rental')
+    } finally {
+      setCanceling(null)
     }
   }
 
@@ -237,8 +354,14 @@ export default function DriverDashboardPage() {
       case 'IN_PROGRESS': return 'bg-purple-100 text-purple-800'
       case 'COMPLETED': return 'bg-gray-100 text-gray-800'
       case 'CANCELLED': return 'bg-red-100 text-red-800'
+      case 'PENDING': return 'bg-yellow-100 text-yellow-800'
+      case 'ACTIVE': return 'bg-green-100 text-green-800'
       default: return 'bg-gray-100 text-gray-800'
     }
+  }
+
+  const canCancel = (status: string) => {
+    return ['ACCEPTED', 'PENDING', 'ACTIVE'].includes(status)
   }
 
   const tabs: { id: TabType; label: string; count: number }[] = [
@@ -416,15 +539,31 @@ export default function DriverDashboardPage() {
                             <div className="mt-4 flex gap-3">
                               <button
                                 onClick={() => acceptRide(ride.id)}
-                                className="flex-1 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+                                disabled={accepting === ride.id || rejecting === ride.id}
+                                className="flex-1 px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold text-lg rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
                               >
-                                ✓ Accept Ride
+                                {accepting === ride.id ? (
+                                  <span className="flex items-center justify-center gap-2">
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                    Accepting...
+                                  </span>
+                                ) : (
+                                  '✓ Accept Ride'
+                                )}
                               </button>
                               <button
                                 onClick={() => rejectRide(ride.id)}
-                                className="px-4 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+                                disabled={accepting === ride.id || rejecting === ride.id}
+                                className="px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-lg rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
                               >
-                                ✗ Reject
+                                {rejecting === ride.id ? (
+                                  <span className="flex items-center justify-center gap-2">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    Rejecting...
+                                  </span>
+                                ) : (
+                                  '✗ Reject'
+                                )}
                               </button>
                             </div>
                           </div>
@@ -503,6 +642,33 @@ export default function DriverDashboardPage() {
                             <div className="text-xs text-gray-500 mt-1">Earnings</div>
                           </div>
                         </div>
+
+                        {canCancel(ride.status) && (
+                          <div className="pt-4 border-t border-gray-200 mt-4">
+                            <button
+                              onClick={() => cancelRide(ride.id)}
+                              disabled={canceling === ride.id}
+                              className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
+                            >
+                              {canceling === ride.id ? (
+                                <span className="flex items-center justify-center gap-2">
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                  Canceling...
+                                </span>
+                              ) : (
+                                '✕ Cancel This Ride'
+                              )}
+                            </button>
+                          </div>
+                        )}
+
+                        {ride.status === 'CANCELLED' && (
+                          <div className="pt-4 border-t border-gray-100 flex justify-end">
+                            <span className="text-sm text-red-600 font-medium">
+                              Cancelled
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   ))
@@ -535,9 +701,6 @@ export default function DriverDashboardPage() {
                             <div className="flex items-center mb-2">
                               <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 🚗 Carpool
-                              </span>
-                              <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(carpool.status)}`}>
-                                {carpool.status}
                               </span>
                             </div>
 
@@ -592,6 +755,26 @@ export default function DriverDashboardPage() {
                             <div className="text-xs text-gray-500 mt-1">Per Seat</div>
                           </div>
                         </div>
+
+                        {/* Show cancel button if departure is in the future */}
+                        {new Date(carpool.departureTime) > new Date() && (
+                          <div className="pt-4 border-t border-green-200 mt-4">
+                            <button
+                              onClick={() => cancelCarpool(carpool.id)}
+                              disabled={canceling === carpool.id}
+                              className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
+                            >
+                              {canceling === carpool.id ? (
+                                <span className="flex items-center justify-center gap-2">
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                  Canceling...
+                                </span>
+                              ) : (
+                                '✕ Cancel This Carpool'
+                              )}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   ))
@@ -660,6 +843,26 @@ export default function DriverDashboardPage() {
                                 </p>
                               </div>
                             </div>
+
+                            {/* Cancel Button for Active/Pending Rentals */}
+                            {['PENDING', 'ACTIVE'].includes(rental.status) && (
+                              <div className="mt-4">
+                                <button
+                                  onClick={() => cancelRental(rental.id)}
+                                  disabled={canceling === rental.id}
+                                  className="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 transition-all font-bold text-sm"
+                                >
+                                  {canceling === rental.id ? (
+                                    <span className="flex items-center justify-center">
+                                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                      Canceling...
+                                    </span>
+                                  ) : (
+                                    '✕ Cancel This Rental'
+                                  )}
+                                </button>
+                              </div>
+                            )}
                           </div>
 
                           <div className="text-right ml-4">

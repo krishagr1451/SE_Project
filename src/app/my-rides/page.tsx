@@ -55,6 +55,7 @@ export default function MyRidesPage() {
   const [carpoolBookings, setCarpoolBookings] = useState<Booking[]>([])
   const [carRentals, setCarRentals] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
+  const [canceling, setCanceling] = useState<string | null>(null)
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -123,6 +124,87 @@ export default function MyRidesPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const cancelRide = async (rideId: string) => {
+    if (!confirm('Are you sure you want to cancel this ride request?')) {
+      return
+    }
+
+    setCanceling(rideId)
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/rides/${rideId}/cancel`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('✅ Ride cancelled successfully')
+        fetchAllBookings() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to cancel ride')
+      }
+    } catch (error) {
+      console.error('Error canceling ride:', error)
+      alert('An error occurred while canceling the ride')
+    } finally {
+      setCanceling(null)
+    }
+  }
+
+  const cancelBooking = async (bookingId: string, type: 'carpool' | 'rental') => {
+    if (!confirm(`Are you sure you want to cancel this ${type} booking?`)) {
+      return
+    }
+
+    setCanceling(bookingId)
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/bookings/${bookingId}/cancel`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('✅ Booking cancelled successfully')
+        fetchAllBookings() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to cancel booking')
+      }
+    } catch (error) {
+      console.error('Error canceling booking:', error)
+      alert('An error occurred while canceling the booking')
+    } finally {
+      setCanceling(null)
+    }
+  }
+
+  const canCancelRide = (status: string) => {
+    const upperStatus = status.toUpperCase()
+    return ['SEARCHING', 'ACCEPTED', 'PENDING', 'ARRIVED'].includes(upperStatus)
+  }
+
+  const canCancelBooking = (status: string) => {
+    // Allow cancellation for pending, confirmed, and active bookings (case-insensitive)
+    const upperStatus = status.toUpperCase()
+    return ['PENDING', 'ACTIVE', 'CONFIRMED'].includes(upperStatus)
   }
 
   if (authLoading || !user) {
@@ -242,8 +324,7 @@ export default function MyRidesPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <Link href={`/rides/${ride.id}`}>
-                        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-indigo-500">
+                      <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-indigo-500">
                           <div className="flex justify-between items-start mb-4">
                             <div className="flex-1">
                               <div className="flex items-center mb-2">
@@ -310,15 +391,46 @@ export default function MyRidesPage() {
                             </div>
                           </div>
 
+                          {/* Cancel Button */}
+                          {canCancelRide(ride.status) && (
+                            <div className="pt-4 border-t border-gray-200 mt-4">
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  cancelRide(ride.id)
+                                }}
+                                disabled={canceling === ride.id}
+                                className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
+                              >
+                                {canceling === ride.id ? (
+                                  <span className="flex items-center justify-center gap-2">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    Canceling...
+                                  </span>
+                                ) : (
+                                  '✕ Cancel Ride Request'
+                                )}
+                              </button>
+                            </div>
+                          )}
+
+                          {ride.status === 'CANCELLED' && (
+                            <div className="pt-4 border-t border-gray-200 mt-4">
+                              <div className="flex items-center justify-center gap-2 text-red-600 font-medium bg-red-50 py-3 rounded-lg">
+                                <span className="text-xl">❌</span>
+                                <span>This ride was cancelled</span>
+                              </div>
+                            </div>
+                          )}
+
                           <div className="pt-4 border-t border-gray-100">
-                            <div className="flex justify-end">
+                            <Link href={`/rides/${ride.id}`} className="flex justify-end">
                               <span className="text-indigo-600 text-sm font-medium hover:text-indigo-700">
                                 View Details →
                               </span>
-                            </div>
+                            </Link>
                           </div>
                         </div>
-                      </Link>
                     </motion.div>
                   ))
                 )}
@@ -395,6 +507,35 @@ export default function MyRidesPage() {
                             <div className="text-xs text-gray-500 mt-1">Total Price</div>
                           </div>
                         </div>
+
+                        {/* Cancel Button for Carpool */}
+                        {canCancelBooking(booking.status) && (
+                          <div className="pt-4 border-t border-green-200 mt-4">
+                            <button
+                              onClick={() => cancelBooking(booking.id, 'carpool')}
+                              disabled={canceling === booking.id}
+                              className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
+                            >
+                              {canceling === booking.id ? (
+                                <span className="flex items-center justify-center gap-2">
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                  Canceling...
+                                </span>
+                              ) : (
+                                '✕ Cancel Carpool Booking'
+                              )}
+                            </button>
+                          </div>
+                        )}
+
+                        {booking.status.toUpperCase() === 'CANCELLED' && (
+                          <div className="pt-4 border-t border-green-200 mt-4">
+                            <div className="flex items-center justify-center gap-2 text-red-600 font-medium bg-red-50 py-3 rounded-lg">
+                              <span className="text-xl">❌</span>
+                              <span>This booking was cancelled</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   ))
@@ -479,6 +620,35 @@ export default function MyRidesPage() {
                             <div className="text-xs text-gray-500 mt-1">Total Price</div>
                           </div>
                         </div>
+
+                        {/* Cancel Button for Car Rental */}
+                        {canCancelBooking(rental.status) && (
+                          <div className="pt-4 border-t border-blue-200 mt-4">
+                            <button
+                              onClick={() => cancelBooking(rental.id, 'rental')}
+                              disabled={canceling === rental.id}
+                              className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg"
+                            >
+                              {canceling === rental.id ? (
+                                <span className="flex items-center justify-center gap-2">
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                  Canceling...
+                                </span>
+                              ) : (
+                                '✕ Cancel Rental Booking'
+                              )}
+                            </button>
+                          </div>
+                        )}
+
+                        {rental.status.toUpperCase() === 'CANCELLED' && (
+                          <div className="pt-4 border-t border-blue-200 mt-4">
+                            <div className="flex items-center justify-center gap-2 text-red-600 font-medium bg-red-50 py-3 rounded-lg">
+                              <span className="text-xl">❌</span>
+                              <span>This booking was cancelled</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   ))
