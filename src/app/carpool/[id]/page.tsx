@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { useAuth } from '@/contexts/AuthContext'
 import { format } from 'date-fns'
 
 interface Carpool {
@@ -22,6 +23,7 @@ interface Carpool {
 export default function CarpoolDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const { user } = useAuth()
   const [carpool, setCarpool] = useState<Carpool | null>(null)
   const [loading, setLoading] = useState(true)
   const [booking, setBooking] = useState(false)
@@ -47,20 +49,34 @@ export default function CarpoolDetailPage() {
 
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!carpool) return
+    if (!carpool || !user) {
+      alert('Please login to book a carpool')
+      router.push('/login')
+      return
+    }
 
     setBooking(true)
     try {
-      const totalPrice = seats * carpool.pricePerSeat
+      // Get auth token from localStorage
+      const authData = localStorage.getItem('auth')
+      if (!authData) {
+        alert('Please login to continue')
+        router.push('/login')
+        return
+      }
+
+      const { token } = JSON.parse(authData)
 
       const response = await fetch('/api/bookings', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({
-          userId: 'demo-user-id', // Replace with actual user ID from auth
           carpoolId: carpool.id,
           startDate: carpool.departureTime,
-          totalPrice,
+          // Note: totalPrice is calculated on the server based on pricePerSeat
         }),
       })
 
@@ -68,7 +84,9 @@ export default function CarpoolDetailPage() {
         alert('Booking successful!')
         router.push('/bookings')
       } else {
-        alert('Booking failed. Please try again.')
+        const error = await response.json()
+        console.error('Booking failed:', error)
+        alert(error.error || 'Booking failed. Please try again.')
       }
     } catch (error) {
       console.error('Booking error:', error)
@@ -172,13 +190,28 @@ export default function CarpoolDetailPage() {
                   </span>
                 </div>
               </div>
-              <button
-                type="submit"
-                disabled={booking || carpool.availableSeats === 0}
-                className="w-full rounded-md bg-indigo-600 px-4 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
-                {booking ? 'Booking...' : carpool.availableSeats === 0 ? 'No Seats Available' : 'Book Now'}
-              </button>
+              {!user ? (
+                <div className="space-y-3">
+                  <p className="text-center text-amber-600 font-medium">
+                    Please login to book this carpool
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => router.push('/login')}
+                    className="w-full rounded-md bg-green-600 px-4 py-3 text-lg font-semibold text-white shadow-sm hover:bg-green-500"
+                  >
+                    Login to Book
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={booking || carpool.availableSeats === 0}
+                  className="w-full rounded-md bg-indigo-600 px-4 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  {booking ? 'Booking...' : carpool.availableSeats === 0 ? 'No Seats Available' : 'Book Now'}
+                </button>
+              )}
             </form>
           </div>
         </div>
