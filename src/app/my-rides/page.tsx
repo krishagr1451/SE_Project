@@ -16,6 +16,7 @@ interface Ride {
   createdAt: string
   driver?: {
     name: string
+    phone?: string
   }
 }
 
@@ -82,7 +83,12 @@ export default function MyRidesPage() {
 
       if (ridesResponse.ok) {
         const ridesData = await ridesResponse.json()
-        setRides(ridesData || [])
+        // API returns { rides: [...] } not just array
+        const ridesArray = ridesData.rides || ridesData || []
+        setRides(Array.isArray(ridesArray) ? ridesArray : [])
+      } else {
+        console.error('Failed to fetch rides:', ridesResponse.status)
+        setRides([])
       }
 
       // Fetch all bookings (carpools and car rentals)
@@ -95,12 +101,19 @@ export default function MyRidesPage() {
       if (bookingsResponse.ok) {
         const bookingsData = await bookingsResponse.json()
         
-        // Separate carpool bookings and car rentals
-        const carpoolOnly = bookingsData.filter((b: Booking) => b.carpool)
-        const rentalOnly = bookingsData.filter((b: Booking) => b.car)
+        // Ensure bookingsData is an array
+        const bookingsArray = Array.isArray(bookingsData) ? bookingsData : []
         
-        setCarpoolBookings(carpoolOnly || [])
-        setCarRentals(rentalOnly || [])
+        // Separate carpool bookings and car rentals
+        const carpoolOnly = bookingsArray.filter((b: Booking) => b.carpool)
+        const rentalOnly = bookingsArray.filter((b: Booking) => b.car)
+        
+        setCarpoolBookings(carpoolOnly)
+        setCarRentals(rentalOnly)
+      } else {
+        console.error('Failed to fetch bookings:', bookingsResponse.status)
+        setCarpoolBookings([])
+        setCarRentals([])
       }
     } catch (error) {
       console.error('Error fetching bookings:', error)
@@ -260,9 +273,33 @@ export default function MyRidesPage() {
                                 </div>
                               </div>
 
-                              {ride.driver?.name && (
+                              {/* Driver Info - Show when ride is accepted */}
+                              {ride.status === 'ACCEPTED' && ride.driver?.name && (
+                                <div className="mt-3 bg-green-50 rounded-lg p-3 border border-green-200">
+                                  <p className="text-xs text-green-700 mb-1 font-medium">✓ Driver Assigned!</p>
+                                  <p className="font-semibold text-sm">👤 {ride.driver.name}</p>
+                                  {ride.driver.phone && (
+                                    <p className="text-sm text-gray-600">📞 {ride.driver.phone}</p>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Searching Status */}
+                              {ride.status === 'SEARCHING' && (
+                                <div className="mt-3 bg-yellow-50 rounded-lg p-3 border border-yellow-200">
+                                  <p className="text-xs text-yellow-700 mb-1">🔍 Finding a driver...</p>
+                                  <div className="mt-2 flex items-center gap-2">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-yellow-600"></div>
+                                    <span className="text-xs text-gray-600">Please wait</span>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Other statuses with driver info */}
+                              {['IN_PROGRESS', 'ARRIVED', 'COMPLETED'].includes(ride.status) && ride.driver?.name && (
                                 <div className="mt-3 text-sm text-gray-600">
                                   Driver: {ride.driver.name}
+                                  {ride.driver.phone && ` • ${ride.driver.phone}`}
                                 </div>
                               )}
                             </div>

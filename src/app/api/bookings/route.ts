@@ -7,16 +7,67 @@ export async function GET(request: NextRequest) {
     const auth = getAuthFromHeader(request.headers.get('authorization'))
     if (!auth) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const bookings = await prisma.booking.findMany({
-      where: { userId: auth.userId },
-      include: {
-        car: true,
-        carpool: true,
-      },
-      orderBy: { createdAt: 'desc' },
-    })
+    const { searchParams } = new URL(request.url)
+    const type = searchParams.get('type')
+
+    let bookings
+
+    if (type === 'owner') {
+      // Get bookings for cars owned by the current user (driver view)
+      bookings = await prisma.booking.findMany({
+        where: {
+          car: {
+            ownerId: auth.userId
+          }
+        },
+        include: {
+          car: {
+            include: {
+              owner: {
+                select: { id: true, name: true, email: true, phone: true }
+              }
+            }
+          },
+          carpool: {
+            include: {
+              driver: {
+                select: { id: true, name: true, email: true }
+              }
+            }
+          },
+          user: {
+            select: { id: true, name: true, email: true, phone: true }
+          }
+        },
+        orderBy: { createdAt: 'desc' }
+      })
+    } else {
+      // Get bookings made by the current user (passenger/renter view)
+      bookings = await prisma.booking.findMany({
+        where: { userId: auth.userId },
+        include: {
+          car: {
+            include: {
+              owner: {
+                select: { id: true, name: true, email: true, phone: true }
+              }
+            }
+          },
+          carpool: {
+            include: {
+              driver: {
+                select: { id: true, name: true, email: true }
+              }
+            }
+          }
+        },
+        orderBy: { createdAt: 'desc' },
+      })
+    }
+
     return NextResponse.json(bookings)
   } catch (error) {
+    console.error('[Bookings API] Error:', error)
     return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 })
   }
 }

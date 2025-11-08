@@ -29,7 +29,7 @@ interface Carpool {
   status: string
   bookings?: Array<{
     id: string
-    passenger: {
+    user: {
       name: string
     }
   }>
@@ -47,7 +47,7 @@ interface CarRental {
     year: number
     licensePlate: string
   }
-  renter: {
+  user: {
     name: string
     phone: string
   }
@@ -62,9 +62,10 @@ interface Stats {
   todayEarnings: number
 }
 
-type TabType = 'rides' | 'carpools' | 'rentals'
+type TabType = 'requests' | 'rides' | 'carpools' | 'rentals'
 
 export default function DriverDashboardPage() {
+  const [rideRequests, setRideRequests] = useState<Ride[]>([])
   const [rides, setRides] = useState<Ride[]>([])
   const [carpools, setCarpools] = useState<Carpool[]>([])
   const [carRentals, setCarRentals] = useState<CarRental[]>([])
@@ -77,7 +78,7 @@ export default function DriverDashboardPage() {
     todayEarnings: 0
   })
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<TabType>('rides')
+  const [activeTab, setActiveTab] = useState<TabType>('requests')
 
   useEffect(() => {
     const authData = localStorage.getItem('auth')
@@ -100,6 +101,18 @@ export default function DriverDashboardPage() {
       }
 
       const { token } = JSON.parse(auth)
+
+      // Fetch incoming ride requests (NEW)
+      const requestsResponse = await fetch('/api/rides?type=available', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (requestsResponse.ok) {
+        const requestsData = await requestsResponse.json()
+        setRideRequests(requestsData.rides || [])
+      }
 
       // Fetch instant rides given by driver
       const ridesResponse = await fetch('/api/rides?type=driverrides', {
@@ -164,6 +177,58 @@ export default function DriverDashboardPage() {
     }
   }
 
+  async function acceptRide(rideId: string) {
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/rides/${rideId}/accept`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('✅ Ride accepted! Passenger will be notified.')
+        fetchDashboardData() // Refresh data
+      } else {
+        const error = await response.json()
+        alert(`Failed to accept ride: ${error.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Error accepting ride:', error)
+      alert('Failed to accept ride')
+    }
+  }
+
+  async function rejectRide(rideId: string) {
+    try {
+      const auth = localStorage.getItem('auth')
+      if (!auth) return
+
+      const { token } = JSON.parse(auth)
+
+      const response = await fetch(`/api/rides/${rideId}/reject`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        alert('Ride rejected')
+        fetchDashboardData() // Refresh data
+      }
+    } catch (error) {
+      console.error('Error rejecting ride:', error)
+    }
+  }
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'SEARCHING': return 'bg-yellow-100 text-yellow-800'
@@ -177,6 +242,7 @@ export default function DriverDashboardPage() {
   }
 
   const tabs: { id: TabType; label: string; count: number }[] = [
+    { id: 'requests', label: '🔔 Ride Requests', count: rideRequests.length },
     { id: 'rides', label: 'Rides Given', count: rides.length },
     { id: 'carpools', label: 'Carpools Hosted', count: carpools.length },
     { id: 'rentals', label: 'Cars Rented Out', count: carRentals.length },
@@ -289,6 +355,92 @@ export default function DriverDashboardPage() {
         {/* Tab Content */}
         {!loading && (
           <>
+            {/* Ride Requests Tab */}
+            {activeTab === 'requests' && (
+              <div className="grid gap-6">
+                {rideRequests.length === 0 ? (
+                  <EmptyState
+                    icon="🔍"
+                    title="No ride requests"
+                    description="When passengers book rides, they'll appear here for you to accept"
+                    actionLabel="Refresh Dashboard"
+                    actionHref="/driver-dashboard"
+                  />
+                ) : (
+                  rideRequests.map((ride, index) => (
+                    <motion.div
+                      key={ride.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 border-l-4 border-yellow-500">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center mb-2">
+                              <span className="px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800 animate-pulse">
+                                🔔 NEW REQUEST
+                              </span>
+                              <span className="ml-3 text-sm text-gray-500">
+                                {format(new Date(ride.createdAt), 'HH:mm')}
+                              </span>
+                            </div>
+
+                            <div className="space-y-2 mt-3">
+                              <div className="flex items-start">
+                                <span className="text-green-600 mr-2">📍</span>
+                                <div>
+                                  <p className="text-xs text-gray-500">Pickup</p>
+                                  <p className="font-medium text-gray-900">{ride.pickupLocation}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-start">
+                                <span className="text-red-600 mr-2">📍</span>
+                                <div>
+                                  <p className="text-xs text-gray-500">Dropoff</p>
+                                  <p className="font-medium text-gray-900">{ride.dropoffLocation}</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            {ride.passenger && (
+                              <div className="mt-3 bg-white rounded-lg p-3 border border-gray-200">
+                                <p className="text-xs text-gray-500 mb-1">Passenger</p>
+                                <p className="font-semibold text-sm">👤 {ride.passenger.name}</p>
+                                {ride.passenger.phone && (
+                                  <p className="text-sm text-gray-600">📞 {ride.passenger.phone}</p>
+                                )}
+                              </div>
+                            )}
+
+                            <div className="mt-4 flex gap-3">
+                              <button
+                                onClick={() => acceptRide(ride.id)}
+                                className="flex-1 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+                              >
+                                ✓ Accept Ride
+                              </button>
+                              <button
+                                onClick={() => rejectRide(ride.id)}
+                                className="px-4 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+                              >
+                                ✗ Reject
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="text-right ml-4">
+                            <div className="text-3xl font-bold text-orange-600">₹{ride.fare}</div>
+                            <div className="text-xs text-gray-500 mt-1">Potential Earnings</div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            )}
+
             {/* Rides Tab */}
             {activeTab === 'rides' && (
               <div className="grid gap-6">
@@ -427,7 +579,7 @@ export default function DriverDashboardPage() {
                                 <div className="flex flex-wrap gap-2">
                                   {carpool.bookings.map((booking) => (
                                     <span key={booking.id} className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                                      👤 {booking.passenger.name}
+                                      👤 {booking.user.name}
                                     </span>
                                   ))}
                                 </div>
@@ -490,8 +642,8 @@ export default function DriverDashboardPage() {
 
                             <div className="mt-3 bg-white rounded-lg p-3">
                               <p className="text-xs text-gray-500 mb-1">Renter</p>
-                              <p className="font-semibold text-sm">👤 {rental.renter.name}</p>
-                              <p className="text-sm text-gray-600">📞 {rental.renter.phone}</p>
+                              <p className="font-semibold text-sm">👤 {rental.user.name}</p>
+                              <p className="text-sm text-gray-600">📞 {rental.user.phone}</p>
                             </div>
 
                             <div className="mt-3 grid grid-cols-2 gap-3">

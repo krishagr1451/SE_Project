@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
     let rides
 
     if (type === 'available') {
-      // Get available rides for drivers
+      // Get available rides for drivers (searching for driver)
       rides = await prisma.ride.findMany({
         where: {
           status: 'SEARCHING',
@@ -163,7 +163,7 @@ export async function GET(request: NextRequest) {
           createdAt: 'desc',
         },
       })
-    } else {
+    } else if (type === 'myrides') {
       // Get rides for this passenger
       rides = await prisma.ride.findMany({
         where: {
@@ -183,9 +183,33 @@ export async function GET(request: NextRequest) {
           createdAt: 'desc',
         },
       })
+    } else {
+      // Default: get all rides for admin or general view
+      rides = await prisma.ride.findMany({
+        include: {
+          passenger: {
+            select: {
+              id: true,
+              name: true,
+              phone: true,
+            },
+          },
+          driver: {
+            select: {
+              id: true,
+              name: true,
+              phone: true,
+              licenseNumber: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
     }
 
-    return NextResponse.json(rides)
+    return NextResponse.json({ rides })
   } catch (error) {
     console.error('Error fetching rides:', error)
     return NextResponse.json({ error: 'Failed to fetch rides' }, { status: 500 })
