@@ -153,16 +153,83 @@ Reset database:
 npx prisma migrate reset
 ```
 
-## 🚧 Future Enhancements
+## � Deployment to Vercel
+
+### Prerequisites
+1. **Switch from SQLite to PostgreSQL** (required for Vercel)
+2. Get a PostgreSQL database (see options below)
+
+### Database Options
+
+**Option 1: Vercel Postgres (Recommended)**
+1. Go to Vercel Dashboard → Your Project
+2. Navigate to **Storage** tab
+3. Create new **Postgres** database
+4. DATABASE_URL will be auto-populated
+
+**Option 2: Free External Databases**
+- **Neon** (https://neon.tech) - Free PostgreSQL with generous limits
+- **Supabase** (https://supabase.com) - Free tier includes PostgreSQL
+- **Railway** (https://railway.app) - $5 credit/month free
+
+### Deployment Steps
+
+1. **Update Environment Variables in Vercel**
+   ```
+   Go to: Project Settings → Environment Variables
+   Add:
+   - JWT_SECRET=your-secret-here
+   - DATABASE_URL=postgresql://user:pass@host:5432/db
+   ```
+
+2. **Run Database Migrations**
+   ```bash
+   # From your local machine with production DATABASE_URL
+   npx prisma migrate deploy
+   
+   # Or seed with sample data
+   npm run db:seed
+   ```
+
+3. **Push to GitHub/Git**
+   ```bash
+   git add .
+   git commit -m "Update for Vercel deployment"
+   git push origin main
+   ```
+
+4. **Vercel Auto-Deploys**
+   - Vercel detects changes and rebuilds
+   - Prisma client generates during build
+   - App goes live automatically
+
+### Troubleshooting
+
+**Issue: "Registration Failed"**
+- ✅ Check environment variables are set in Vercel
+- ✅ Verify DATABASE_URL is PostgreSQL (not SQLite)
+- ✅ Run `prisma migrate deploy` on production database
+- ✅ Check Vercel build logs for errors
+
+**Issue: "Prisma Client Not Found"**
+- Add `"postinstall": "prisma generate"` to package.json scripts
+- Vercel will generate client during build
+
+**Issue: Database Connection Error**
+- Verify DATABASE_URL format: `postgresql://user:password@host:5432/dbname`
+- Check database is accessible from Vercel (most cloud DBs allow external connections)
+
+## �🚧 Future Enhancements
 
 - [ ] NextAuth.js authentication
 - [ ] Image upload for car photos
 - [ ] Search & filter functionality
-- [ ] Payment integration (Stripe)
+- [ ] Payment integration (Stripe/Razorpay)
 - [ ] Rating & review system
 - [ ] Email notifications
 - [ ] Google Maps integration
 - [ ] Real-time messaging
+- [ ] Redis caching for better performance
 
 ## 📄 License
 
