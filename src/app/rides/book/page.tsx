@@ -11,7 +11,8 @@ const LeafletMap = dynamic(() => import('@/components/Map'), { ssr: false })
 interface LocationSuggestion {
   display_name: string
   lat: string
-  lon: string
+  lon?: string  // Legacy format (Nominatim)
+  lng?: string  // New normalized format
 }
 
 type VehicleType = 'AUTO' | 'MINI' | 'SEDAN' | 'SUV' | 'PREMIUM'
@@ -221,13 +222,21 @@ export default function BookRidePage() {
   }
 
   const selectLocation = (location: LocationSuggestion, type: 'pickup' | 'dropoff') => {
+    // Handle both 'lng' and 'lon' for backwards compatibility
+    const lng = location.lng || location.lon
+    
+    if (!lng) {
+      console.error('Invalid location: missing longitude', location)
+      return
+    }
+    
     if (type === 'pickup') {
       setPickupLocation(location.display_name)
-      setSelectedPickup({ lat: parseFloat(location.lat), lng: parseFloat(location.lon) })
+      setSelectedPickup({ lat: parseFloat(location.lat), lng: parseFloat(lng) })
       setPickupSuggestions([])
     } else {
       setDropoffLocation(location.display_name)
-      setSelectedDropoff({ lat: parseFloat(location.lat), lng: parseFloat(location.lon) })
+      setSelectedDropoff({ lat: parseFloat(location.lat), lng: parseFloat(lng) })
       setDropoffSuggestions([])
     }
   }

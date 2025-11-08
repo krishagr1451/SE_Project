@@ -321,9 +321,18 @@ async function geocodeWithGoogle(address: string, autocomplete: boolean, apiKey:
     }
 
     const result = data.results[0]
+    const lat = result.geometry.location.lat
+    const lng = result.geometry.location.lng
+    
+    // Validate coordinates before returning
+    if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) {
+      console.error('[Geocode] Invalid coordinates from Google:', { lat, lng, result })
+      throw new Error('Invalid coordinates received from geocoding service')
+    }
+    
     return {
-      lat: result.geometry.location.lat,
-      lng: result.geometry.location.lng,
+      lat,
+      lng,
       address: result.formatted_address
     }
   }
@@ -357,7 +366,7 @@ async function geocodeWithNominatim(address: string, autocomplete: boolean): Pro
     return data.map(item => ({
       display_name: item.display_name,
       lat: parseFloat(item.lat),
-      lng: parseFloat(item.lon),
+      lng: parseFloat(item.lon), // Nominatim returns 'lon', we normalize to 'lng'
       type: item.type,
       importance: item.importance,
       address: item.address
@@ -365,9 +374,18 @@ async function geocodeWithNominatim(address: string, autocomplete: boolean): Pro
   } else {
     // Return single result with lat/lng
     const { lat, lon, display_name } = data[0]
+    const parsedLat = parseFloat(lat)
+    const parsedLng = parseFloat(lon)
+    
+    // Validate coordinates before returning
+    if (isNaN(parsedLat) || isNaN(parsedLng)) {
+      console.error('[Geocode] Invalid coordinates from Nominatim:', { lat, lon, data: data[0] })
+      throw new Error('Invalid coordinates received from geocoding service')
+    }
+    
     return { 
-      lat: parseFloat(lat), 
-      lng: parseFloat(lon),
+      lat: parsedLat, 
+      lng: parsedLng, // Nominatim returns 'lon', we normalize to 'lng'
       address: display_name 
     }
   }
