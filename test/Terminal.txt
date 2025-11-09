@@ -1,0 +1,292 @@
+RERUN  rerun all tests 
+
+
+ ❯ src/lib/__tests__/api.routes.test.ts [queued]
+ ❯ src/lib/__tests__/auth.test.ts [queued]
+
+ ❯ src/lib/__tests__/api.routes.test.ts [queued]
+ ❯ src/lib/__tests__/auth.test.ts [queued]
+ ❯ test/test3-canCancelBooking.test.tsx (7 tests | 1 failed) 16ms
+     ✓ Test 3.1: Should return true for PENDING status 2ms
+     ✓ Test 3.2: Should return true for ACTIVE status 1ms
+     ✓ Test 3.3: Should return true for CONFIRMED status 1ms
+     ✓ Test 3.4: Should return false for COMPLETED status 1ms
+     ✓ Test 3.5: Should return false for CANCELLED status 0ms
+     ✓ Test 3.6: Should handle case-insensitive input 0ms
+     × Test 3.7: Should return true for SCHEDULED status 9ms
+ ❯ test/test2-canCancelRide.test.tsx (10 tests | 1 failed) 19ms
+     ✓ Test 2.1: Should return true for SEARCHING status 2ms
+     ✓ Test 2.2: Should return true for ACCEPTED status 1ms
+     ✓ Test 2.3: Should return true for PENDING status 1ms
+     ✓ Test 2.4: Should return true for ARRIVED status 0ms
+     ✓ Test 2.5: Should return false for IN_PROGRESS status 1ms
+     ✓ Test 2.6: Should return false for COMPLETED status 0ms
+     ✓ Test 2.7: Should return false for CANCELLED status 0ms
+     ✓ Test 2.8: Should handle lowercase input 0ms
+     × Test 2.9: Should return true for SCHEDULED status 10ms
+     ✓ Test 2.10: Should handle mixed case 0ms
+ ❯ test/test1-getStatusColor.test.tsx (8 tests | 1 failed) 20ms
+     ✓ Test 1.1: Should return yellow classes for SEARCHING status 2ms
+     ✓ Test 1.2: Should return blue classes for ACCEPTED status 1ms
+     ✓ Test 1.3: Should return green classes for ARRIVED status 0ms
+     ✓ Test 1.4: Should return purple classes for IN_PROGRESS status 1ms
+     ✓ Test 1.5: Should return gray classes for COMPLETED status 0ms
+     ✓ Test 1.6: Should return red classes for CANCELLED status 0ms
+     × Test 1.7: Should handle lowercase status 12ms
+     ✓ Test 1.8: Should return default gray for unknown status 0ms
+ ❯ test/test6-formatPrice.test.tsx (9 tests | 1 failed) 18ms
+     ✓ Test 6.1: Should format price in INR 2ms
+     ✓ Test 6.2: Should format price in USD 1ms
+     ✓ Test 6.3: Should handle decimal values 0ms
+     ✓ Test 6.4: Should round to 2 decimal places 0ms
+     ✓ Test 6.5: Should handle zero price 0ms
+     ✓ Test 6.6: Should handle negative price 0ms
+     ✓ Test 6.7: Should handle unknown currency 0ms
+     × Test 6.8: Should add comma separators for large amounts 10ms
+     ✓ Test 6.9: Should handle large numbers 0ms
+stdout | src/lib/__tests__/logger.test.ts > Logger Utility > should log without throwing errors       
+[2025-11-08T19:00:35.281Z] [INFO] Test info message
+[2025-11-08T19:00:35.285Z] [DEBUG] Test debug message
+
+stderr | src/lib/__tests__/logger.test.ts > Logger Utility > should log without throwing errors       
+[2025-11-08T19:00:35.283Z] [WARN] Test warn message                                                   
+[2025-11-08T19:00:35.284Z] [ERROR] Test error message | {}                                            
+                                                                                                      
+stdout | src/lib/__tests__/logger.test.ts > Logger Utility > should handle context objects            
+[2025-11-08T19:00:35.286Z] [INFO] Test with context | {"userId":"123","action":"login"}               
+                                                                                                      
+stderr | src/lib/__tests__/logger.test.ts > Logger Utility > should handle Error objects in error method                                                                                                    
+[2025-11-08T19:00:35.291Z] [ERROR] Error occurred | {"userId":"123","error":"Test error","stack":"Error: Test error\n    at C:/Users/KRISH AGRAWAL/Desktop/sem V/trial/car-share-app/src/lib/__tests__/logger.test.ts:39:23\n    at file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:157:11\n    at file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:753:26\n    at file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:1636:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:1602:10)\n    at runTest (file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:1309:12)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runSuite (file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:1468:8)\n    at runSuite (file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:1468:8)"}
+
+ ✓ src/lib/__tests__/logger.test.ts (7 tests) 20ms                                                    
+ ❯ test/test4-calculateDistance.test.tsx (6 tests | 2 failed) 18ms                                    
+     ✓ Test 4.1: Should calculate distance correctly 2ms                                              
+     ✓ Test 4.2: Should return 0 for same coordinates 1ms                                             
+     × Test 4.3: Should handle negative coordinates 5ms                                               
+     ✓ Test 4.4: Should calculate short distance 1ms                                                  
+     × Test 4.5: Should validate latitude bounds 6ms                                                  
+     ✓ Test 4.6: Should handle equator crossing 0ms                                                   
+stdout | src/lib/__tests__/api.routes.test.ts > Auth Login API > 400 when email or password missing   
+[API] /api/auth/login POST { email: '' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Auth Login API > 401 for non-existent user
+[API] /api/auth/login POST { email: 'a@b.com' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Auth Login API > 401 for wrong password
+[API] /api/auth/login POST { email: 'a@b.com' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Auth Login API > 200 success returns token and user   
+[API] /api/auth/login POST { email: 'a@b.com' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 401 without auth
+❌ No auth found in header
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 403 for non-driver or unverified      
+✅ Auth found: { userId: 'u1' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 403 for non-driver or unverified      
+✅ User found: { id: 'u1', role: 'PASSENGER', isVerified: false }
+❌ User is not a driver, role: PASSENGER
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 400 for missing fields
+✅ Auth found: { userId: 'u1' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 400 for missing fields
+✅ User found: { id: 'u1', role: 'DRIVER', isVerified: true }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 201 creates car
+✅ Auth found: { userId: 'u1' }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 201 creates car
+✅ User found: { id: 'u1', role: 'DRIVER', isVerified: true }
+
+stdout | src/lib/__tests__/api.routes.test.ts > Cars API > POST 201 creates car
+✅ Car created: c1
+
+stderr | src/lib/__tests__/api.routes.test.ts > Rides API > POST 201 creates ride with fare and status
+User not found: u1
+
+stderr | src/lib/__tests__/api.routes.test.ts > Rides API > GET returns available rides for driver    
+Error fetching rides: TypeError: Cannot read properties of undefined (reading 'searchParams')
+    at Module.GET (C:/Users/KRISH AGRAWAL/Desktop/sem V/trial/car-share-app/src/app/api/rides/route.ts:122:42)
+    at C:/Users/KRISH AGRAWAL/Desktop/sem V/trial/car-share-app/src/lib/__tests__/api.routes.test.ts:244:27
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at file:///C:/Users/KRISH%20AGRAWAL/Desktop/sem%20V/trial/car-share-app/node_modules/@vitest/runner/dist/index.js:753:20
+
+ ✓ src/lib/__tests__/auth.test.ts (8 tests) 23ms                                                      
+ ❯ src/lib/__tests__/api.routes.test.ts (24 tests | 2 failed) 238ms                                   
+     ✓ 400 when email or password missing 133ms                                                       
+     ✓ 401 for non-existent user 4ms                                                                  
+     ✓ 401 for wrong password 5ms                                                                     
+     ✓ 200 success returns token and user 3ms
+     ✓ 401 when no Authorization header 9ms
+     ✓ 401 when user not found 2ms
+     ✓ 200 returns user with role and verification 2ms
+     ✓ 400 when user exists 7ms
+     ✓ 201 creates user without password in response 4ms
+     ✓ GET returns available cars 7ms
+     ✓ POST 401 without auth 2ms
+     ✓ POST 403 for non-driver or unverified 2ms
+     ✓ POST 400 for missing fields 3ms
+     ✓ POST 201 creates car 2ms
+     ✓ POST 401 missing token 13ms
+     ✓ POST 401 invalid token 1ms
+     × POST 201 creates ride with fare and status 14ms
+     × GET returns available rides for driver 4ms
+     ✓ GET 401 unauthorized 9ms
+     ✓ POST car booking uses hourly rate when present 3ms
+     ✓ POST car booking requires endDate 2ms
+     ✓ POST car booking 404 when car not found 1ms
+     ✓ POST carpool booking decrements seats 2ms
+     ✓ GET returns user bookings 2ms
+ ✓ test/test5-validateEmail.test.tsx (10 tests) 8ms
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/test1-getStatusColor.test.tsx > Unit 1: getStatusColor Function > Test 1.7: Should handle lowercase status
+AssertionError: expected 'bg-gray-100 text-gray-800' to be 'bg-yellow-100 text-yellow-800' // Object.is equality
+
+Expected: "bg-yellow-100 text-yellow-800"
+Received: "bg-gray-100 text-gray-800"
+
+ ❯ test/test1-getStatusColor.test.tsx:42:41
+     40|   it('Test 1.7: Should handle lowercase status', () => {
+     41|     // This will fail - function doesn't convert to uppercase
+     42|     expect(getStatusColor('searching')).toBe('bg-yellow-100 text-yellow-800')
+       |                                         ^
+     43|   })
+     44|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  test/test2-canCancelRide.test.tsx > Unit 2: canCancelRide Function > Test 2.9: Should return true for SCHEDULED status
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/test2-canCancelRide.test.tsx:44:40
+     42|   it('Test 2.9: Should return true for SCHEDULED status', () => {
+     43|     // This will fail - SCHEDULED not in allowed list
+     44|     expect(canCancelRide('SCHEDULED')).toBe(true)
+       |                                        ^
+     45|   })
+     46|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  test/test3-canCancelBooking.test.tsx > Unit 3: canCancelBooking Function > Test 3.7: Should return true for SCHEDULED status
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/test3-canCancelBooking.test.tsx:35:43
+     33|   it('Test 3.7: Should return true for SCHEDULED status', () => {
+     34|     // This will fail - SCHEDULED not in allowed list
+     35|     expect(canCancelBooking('SCHEDULED')).toBe(true)
+       |                                           ^
+     36|   })
+     37| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  test/test4-calculateDistance.test.tsx > Unit 4: calculateDistance Function > Test 4.3: Should handle negative coordinates
+AssertionError: expected 16993.933459795906 to be greater than 17000
+ ❯ test/test4-calculateDistance.test.tsx:28:22
+     26|   it('Test 4.3: Should handle negative coordinates', () => {
+     27|     const distance = calculateDistance(-33.8688, 151.2093, 51.5074, -0.1278)
+     28|     expect(distance).toBeGreaterThan(17000)
+       |                      ^
+     29|   })
+     30|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  test/test4-calculateDistance.test.tsx > Unit 4: calculateDistance Function > Test 4.5: Should validate latitude bounds
+AssertionError: expected 10563.518031233081 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 10563.518031233081
+
+ ❯ test/test4-calculateDistance.test.tsx:39:22
+     37|     // This will fail - no validation for invalid coordinates
+     38|     const distance = calculateDistance(95, 0, 0, 0)
+     39|     expect(distance).toBe(0)
+       |                      ^
+     40|   })
+     41|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  test/test6-formatPrice.test.tsx > Unit 6: formatPrice Function > Test 6.8: Should add comma separators for large amounts
+AssertionError: expected '₹100000.00' to be '₹1,00,000.00' // Object.is equality
+
+Expected: "₹1,00,000.00"
+Received: "₹100000.00"
+
+ ❯ test/test6-formatPrice.test.tsx:45:40
+     43|   it('Test 6.8: Should add comma separators for large amounts', () => {
+     44|     // This will fail - no comma formatting
+     45|     expect(formatPrice(100000, 'INR')).toBe('₹1,00,000.00')
+       |                                        ^
+     46|   })
+     47|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/lib/__tests__/api.routes.test.ts > Rides API > POST 201 creates ride with fare and status  
+AssertionError: expected 404 to be 201 // Object.is equality
+
+- Expected
++ Received
+
+- 201
++ 404
+
+ ❯ src/lib/__tests__/api.routes.test.ts:235:20
+    233|     const res = await mod.POST(req as any)
+    234|     const { status, json } = await parseJson(res as any)
+    235|     expect(status).toBe(201)
+       |                    ^
+    236|     expect(json.status).toBe('SEARCHING')
+    237|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/lib/__tests__/api.routes.test.ts > Rides API > GET returns available rides for driver      
+AssertionError: expected 500 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 500
+
+ ❯ src/lib/__tests__/api.routes.test.ts:246:20
+    244|     const res = await mod.GET(req as any)
+    245|     const { status, json } = await parseJson(res as any)
+    246|     expect(status).toBe(200)
+       |                    ^
+    247|     expect(json[0].status).toBe('SEARCHING')
+    248|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  6 failed | 3 passed (9)
+      Tests  8 failed | 81 passed (89)
+   Start at  00:30:32
+   Duration  6.66s
+
+ FAIL  Tests failed. Watching for file changes...
+       press h to show help, press q to quit

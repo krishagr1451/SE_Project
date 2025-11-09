@@ -1,0 +1,312 @@
+═══════════════════════════════════════════════════════════════════════
+                    UNIT TESTING LAB - PROBLEM STATEMENTS
+                       Computer Engineering - 2022-2023
+═══════════════════════════════════════════════════════════════════════
+
+PROJECT: Car Share App (Ride Booking & Rental Platform)
+STUDENT: Krish Agrawal
+DATE: November 9, 2025
+
+═══════════════════════════════════════════════════════════════════════
+                         PROBLEM STATEMENT 1
+═══════════════════════════════════════════════════════════════════════
+
+FUNCTION NAME: getStatusColor
+
+PROBLEM DESCRIPTION:
+In a ride-booking application, different ride/booking statuses need to be
+displayed to users with appropriate color coding for quick visual recognition.
+Each status (SEARCHING, ACCEPTED, ARRIVED, IN_PROGRESS, COMPLETED, CANCELLED)
+should have a distinct color scheme using Tailwind CSS classes.
+
+REQUIREMENTS:
+• Map each status to appropriate Tailwind CSS color classes
+• Return yellow for SEARCHING (ride request pending)
+• Return blue for ACCEPTED (driver confirmed)
+• Return green for ARRIVED (driver reached pickup)
+• Return purple for IN_PROGRESS (ride ongoing)
+• Return gray for COMPLETED (ride finished)
+• Return red for CANCELLED (ride cancelled)
+• Handle unknown statuses with default gray color
+
+INPUT: status (string) - The current status of ride/booking
+OUTPUT: string - Tailwind CSS classes for background and text color
+
+EXAMPLE:
+  getStatusColor('SEARCHING') → 'bg-yellow-100 text-yellow-800'
+  getStatusColor('COMPLETED') → 'bg-gray-100 text-gray-800'
+
+USE CASE:
+Used in UI components to display status badges with consistent color coding
+across the application for better user experience.
+
+═══════════════════════════════════════════════════════════════════════
+                         PROBLEM STATEMENT 2
+═══════════════════════════════════════════════════════════════════════
+
+FUNCTION NAME: canCancelRide
+
+PROBLEM DESCRIPTION:
+In a ride-booking system, users should be able to cancel rides only during
+certain stages. Once a ride is in progress or completed, cancellation should
+not be allowed. The system needs to determine whether a ride can be cancelled
+based on its current status.
+
+REQUIREMENTS:
+• Allow cancellation when status is SEARCHING (looking for driver)
+• Allow cancellation when status is ACCEPTED (driver confirmed)
+• Allow cancellation when status is PENDING (waiting to start)
+• Allow cancellation when status is ARRIVED (driver at pickup)
+• Prevent cancellation when status is IN_PROGRESS (ride ongoing)
+• Prevent cancellation when status is COMPLETED (ride finished)
+• Prevent cancellation when status is CANCELLED (already cancelled)
+• Handle case-insensitive status input (searching, SEARCHING, SeArChInG)
+
+INPUT: status (string) - The current status of the ride
+OUTPUT: boolean - true if cancellation allowed, false otherwise
+
+EXAMPLE:
+  canCancelRide('SEARCHING') → true
+  canCancelRide('IN_PROGRESS') → false
+  canCancelRide('searching') → true (case-insensitive)
+
+USE CASE:
+Used to show/hide the "Cancel Ride" button in the UI and validate
+cancellation requests on the backend to enforce business rules.
+
+═══════════════════════════════════════════════════════════════════════
+                         PROBLEM STATEMENT 3
+═══════════════════════════════════════════════════════════════════════
+
+FUNCTION NAME: canCancelBooking
+
+PROBLEM DESCRIPTION:
+For carpool and car rental bookings, the cancellation policy differs from
+instant rides. Users should be able to cancel bookings that are pending,
+active, or confirmed, but not those that are completed or already cancelled.
+The system needs to validate if a booking can be cancelled based on its status.
+
+REQUIREMENTS:
+• Allow cancellation for PENDING bookings (not yet started)
+• Allow cancellation for ACTIVE bookings (currently ongoing)
+• Allow cancellation for CONFIRMED bookings (confirmed but not started)
+• Prevent cancellation for COMPLETED bookings (finished)
+• Prevent cancellation for CANCELLED bookings (already cancelled)
+• Handle case-insensitive input
+• Apply same logic for both carpool and rental bookings
+
+INPUT: status (string) - The current status of the booking
+OUTPUT: boolean - true if cancellation allowed, false otherwise
+
+EXAMPLE:
+  canCancelBooking('PENDING') → true
+  canCancelBooking('COMPLETED') → false
+  canCancelBooking('active') → true (case-insensitive)
+
+USE CASE:
+Used to determine if "Cancel Booking" button should be displayed for
+carpools and rentals, and to validate cancellation API requests.
+
+═══════════════════════════════════════════════════════════════════════
+                         PROBLEM STATEMENT 4
+═══════════════════════════════════════════════════════════════════════
+
+FUNCTION NAME: calculateDistance
+
+PROBLEM DESCRIPTION:
+For a ride-booking application, calculating the distance between pickup and
+drop-off locations is crucial for fare estimation and driver matching. Given
+two geographical coordinates (latitude and longitude), calculate the distance
+between them in kilometers using the Haversine formula which accounts for
+Earth's spherical shape.
+
+REQUIREMENTS:
+• Accept two coordinate pairs: (lat1, lon1) and (lat2, lon2)
+• Use Haversine formula for accurate distance calculation
+• Return distance in kilometers
+• Handle coordinates in both hemispheres (positive and negative)
+• Return 0 for identical coordinates
+• Work for short distances (< 1 km) and long distances (> 1000 km)
+
+INPUT: 
+  lat1, lon1 (numbers) - First coordinate (latitude, longitude)
+  lat2, lon2 (numbers) - Second coordinate (latitude, longitude)
+
+OUTPUT: number - Distance in kilometers
+
+HAVERSINE FORMULA:
+  a = sin²(Δlat/2) + cos(lat1) × cos(lat2) × sin²(Δlon/2)
+  c = 2 × atan2(√a, √(1-a))
+  distance = R × c  (where R = 6371 km, Earth's radius)
+
+EXAMPLE:
+  calculateDistance(28.6139, 77.2090, 19.0760, 72.8777) → ~1151 km (Delhi-Mumbai)
+  calculateDistance(40.7128, -74.0060, 40.7128, -74.0060) → 0 km (same point)
+
+USE CASE:
+Used for fare calculation (₹ per km), matching nearby drivers to passengers,
+and displaying estimated distance to users before booking.
+
+═══════════════════════════════════════════════════════════════════════
+                         PROBLEM STATEMENT 5
+═══════════════════════════════════════════════════════════════════════
+
+FUNCTION NAME: validateEmail
+
+PROBLEM DESCRIPTION:
+During user registration and profile updates, the system needs to validate
+email addresses to ensure they are in correct format before storing in database
+or sending verification emails. Invalid email addresses cause delivery failures
+and data quality issues.
+
+REQUIREMENTS:
+• Validate basic email format: username@domain.extension
+• Accept alphanumeric characters in username
+• Accept dots (.) in username (user.name@example.com)
+• Accept numbers in both username and domain
+• Reject emails without @ symbol
+• Reject emails without domain name
+• Reject emails with spaces
+• Reject empty strings
+• Reject multiple @ symbols
+• Email must have at least one character before and after @
+• Email must have a domain with dot (example.com)
+
+INPUT: email (string) - Email address to validate
+OUTPUT: boolean - true if valid format, false otherwise
+
+REGEX PATTERN: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+EXAMPLE:
+  validateEmail('user@example.com') → true
+  validateEmail('user.name@example.co.in') → true
+  validateEmail('userexample.com') → false (no @)
+  validateEmail('user @example.com') → false (space)
+  validateEmail('') → false (empty)
+
+USE CASE:
+Used during registration form validation, profile updates, and before
+sending password reset or verification emails to prevent errors.
+
+═══════════════════════════════════════════════════════════════════════
+                         PROBLEM STATEMENT 6
+═══════════════════════════════════════════════════════════════════════
+
+FUNCTION NAME: formatPrice
+
+PROBLEM DESCRIPTION:
+In a multi-currency ride-booking platform, prices need to be displayed with
+appropriate currency symbols and proper decimal formatting. The system should
+format numeric price values with currency symbols (₹ for INR, $ for USD) and
+ensure consistent 2-decimal place formatting for financial accuracy.
+
+REQUIREMENTS:
+• Format prices with currency symbol based on currency parameter
+• Default currency should be INR (₹)
+• Support USD ($) formatting
+• Support other currencies with generic format (amount CURRENCY)
+• Always display exactly 2 decimal places (99.5 → 99.50)
+• Round to 2 decimal places if more decimals provided (99.999 → 100.00)
+• Handle zero prices (display as ₹0.00)
+• Handle negative prices (return "Invalid Price")
+• Currency symbols should appear before amount for INR and USD
+
+INPUT: 
+  price (number) - The price amount
+  currency (string, optional) - Currency code (default: 'INR')
+
+OUTPUT: string - Formatted price with currency symbol
+
+EXAMPLE:
+  formatPrice(100) → '₹100.00'
+  formatPrice(99.99, 'INR') → '₹99.99'
+  formatPrice(100, 'USD') → '$100.00'
+  formatPrice(99.999, 'INR') → '₹100.00' (rounded)
+  formatPrice(0, 'INR') → '₹0.00'
+  formatPrice(-50, 'INR') → 'Invalid Price'
+  formatPrice(100, 'EUR') → '100.00 EUR'
+
+USE CASE:
+Used to display ride fares, booking costs, wallet balances, and transaction
+amounts throughout the application with consistent formatting.
+
+═══════════════════════════════════════════════════════════════════════
+                    TESTING REQUIREMENTS (ALL FUNCTIONS)
+═══════════════════════════════════════════════════════════════════════
+
+For each function, comprehensive test cases should cover:
+
+1. VALID INPUTS (Happy Path Testing)
+   • Test all expected valid inputs
+   • Verify correct output for each case
+   • Test boundary values
+
+2. EDGE CASES
+   • Empty strings
+   • Null/undefined values
+   • Case variations (uppercase, lowercase, mixed)
+   • Zero values
+   • Maximum values
+   • Minimum values
+
+3. INVALID INPUTS (Negative Testing)
+   • Wrong data types
+   • Out of range values
+   • Malformed inputs
+   • Special characters
+
+4. BUSINESS LOGIC VALIDATION
+   • Verify business rules are enforced
+   • Test state transitions
+   • Validate constraints
+
+5. ERROR HANDLING
+   • Graceful handling of unexpected inputs
+   • Appropriate error messages
+   • No runtime crashes
+
+═══════════════════════════════════════════════════════════════════════
+                    EXPECTED DELIVERABLES
+═══════════════════════════════════════════════════════════════════════
+
+For each problem statement:
+
+1. ✅ Function Implementation
+   • Write the function according to requirements
+   • Include proper error handling
+   • Add code comments
+
+2. ✅ Test Cases
+   • Minimum 6-10 test cases per function
+   • Cover all requirement scenarios
+   • Include both passing and failing tests
+
+3. ✅ Test Results
+   • Execute all tests
+   • Document pass/fail status
+   • Provide failure analysis
+
+4. ✅ Test Reports
+   • Individual result file per function
+   • Consolidated summary report
+   • Pass rate statistics
+   • Recommendations for failures
+
+═══════════════════════════════════════════════════════════════════════
+                    EVALUATION CRITERIA
+═══════════════════════════════════════════════════════════════════════
+
+• Function Correctness: Does it solve the problem correctly?
+• Test Coverage: Are all scenarios tested?
+• Edge Case Handling: Are edge cases considered?
+• Code Quality: Is code clean and maintainable?
+• Documentation: Are tests well documented?
+• Failure Analysis: Are failures properly analyzed?
+
+═══════════════════════════════════════════════════════════════════════
+                    END OF PROBLEM STATEMENTS
+═══════════════════════════════════════════════════════════════════════
+
+Generated: November 9, 2025
+Project: Car Share App
+Student: Krish Agrawal

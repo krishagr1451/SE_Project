@@ -1,0 +1,120 @@
+═══════════════════════════════════════════════════════════════════════
+           UNIT TESTING LAB - CONSOLIDATED RESULTS
+           Computer Engineering - 2022-2023
+═══════════════════════════════════════════════════════════════════════
+
+PROJECT: Car Share App
+STUDENT: Krish Agrawal
+DATE: November 9, 2025
+FRAMEWORK: Vitest
+
+═══════════════════════════════════════════════════════════════════════
+                    OVERALL TEST SUMMARY
+═══════════════════════════════════════════════════════════════════════
+
+┌──────────┬───────────────────────┬───────┬────────┬─────────┬──────┐
+│ Test No. │ Function              │ Total │ Passed │ Failed  │ Rate │
+├──────────┼───────────────────────┼───────┼────────┼─────────┼──────┤
+│    1     │ getStatusColor        │   8   │   7    │    1    │ 87.5%│
+│    2     │ canCancelRide         │  10   │   9    │    1    │ 90.0%│
+│    3     │ canCancelBooking      │   7   │   6    │    1    │ 85.7%│
+│    4     │ calculateDistance     │   6   │   5    │    1    │ 83.3%│
+│    5     │ validateEmail         │  10   │   8    │    2    │ 80.0%│
+│    6     │ formatPrice           │   9   │   8    │    1    │ 88.9%│
+├──────────┼───────────────────────┼───────┼────────┼─────────┼──────┤
+│  TOTAL   │                       │  50   │  43    │    7    │ 86.0%│
+└──────────┴───────────────────────┴───────┴────────┴─────────┴──────┘
+
+═══════════════════════════════════════════════════════════════════════
+                    PASS RATE VISUALIZATION
+═══════════════════════════════════════════════════════════════════════
+
+OVERALL: ████████████████████████████████████████████░░░░░░ 86.0%
+
+Test 1:  ████████████████████████████████████████████░░░░░░ 87.5%
+Test 2:  █████████████████████████████████████████████░░░░░ 90.0%
+Test 3:  ██████████████████████████████████████████░░░░░░░░ 85.7%
+Test 4:  █████████████████████████████████████████░░░░░░░░░ 83.3%
+Test 5:  ████████████████████████████████████████░░░░░░░░░░ 80.0%
+Test 6:  ████████████████████████████████████████████░░░░░░ 88.9%
+
+█ = Passed    ░ = Failed
+
+═══════════════════════════════════════════════════════════════════════
+                    FAILED TEST ANALYSIS
+═══════════════════════════════════════════════════════════════════════
+
+CRITICAL (1):
+❌ Test 4.5: calculateDistance - No coordinate validation
+   Impact: Incorrect fare calculations
+   Priority: HIGH
+
+HIGH (2):
+⚠ Test 2.9: canCancelRide - Missing SCHEDULED status
+   Impact: Feature gap for users
+   Priority: MEDIUM
+
+⚠ Test 3.7: canCancelBooking - Missing SCHEDULED status
+   Impact: Feature gap for bookings
+   Priority: MEDIUM
+
+MEDIUM (3):
+⚠ Test 1.7: getStatusColor - No case normalization
+   Impact: UI inconsistency
+   Priority: LOW
+
+⚠ Test 5.8: validateEmail - Plus sign not supported
+   Impact: Some users can't register
+   Priority: MEDIUM
+
+⚠ Test 6.8: formatPrice - No comma separators
+   Impact: Poor readability
+   Priority: LOW
+
+LOW (1):
+ℹ Test 5.10: validateEmail - Accepts localhost
+   Impact: Invalid emails allowed
+   Priority: MEDIUM
+
+═══════════════════════════════════════════════════════════════════════
+                    KEY FINDINGS
+═══════════════════════════════════════════════════════════════════════
+
+✓ STRENGTHS:
+  • 86% overall pass rate
+  • Core business logic works correctly
+  • Case-insensitive handling mostly implemented
+  • Error handling for basic edge cases
+
+⚠ AREAS FOR IMPROVEMENT:
+  • Input validation needed (coordinates, null checks)
+  • Missing SCHEDULED status across multiple functions
+  • Email regex could be more comprehensive
+  • Number formatting needs locale support
+
+═══════════════════════════════════════════════════════════════════════
+                    RECOMMENDATIONS
+═══════════════════════════════════════════════════════════════════════
+
+1. Add coordinate boundary validation (CRITICAL)
+2. Include SCHEDULED in cancellation logic
+3. Improve email regex pattern
+4. Add thousand separators using toLocaleString()
+5. Consider input validation library
+
+═══════════════════════════════════════════════════════════════════════
+                    CONCLUSION
+═══════════════════════════════════════════════════════════════════════
+
+ACHIEVEMENT: Successfully tested 6 critical functions with 50 test cases
+
+RESULT: 43 tests passed, 7 tests failed (86% success rate)
+
+LEARNING: Unit testing revealed 7 real issues that would cause bugs in
+production. Most issues are easily fixable with small code changes.
+
+STATUS: ✓ TESTING COMPLETE - ISSUES IDENTIFIED FOR RESOLUTION
+
+═══════════════════════════════════════════════════════════════════════
+                    END OF REPORT
+═══════════════════════════════════════════════════════════════════════

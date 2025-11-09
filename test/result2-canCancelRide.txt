@@ -1,0 +1,20 @@
+TEST 2: canCancelRide Function
+File: test/test2-canCancelRide.test.tsx
+Date: November 9, 2025
+
+✓ Test 2.1: Should return true for SEARCHING status
+✓ Test 2.2: Should return true for ACCEPTED status
+✓ Test 2.3: Should return true for PENDING status
+✓ Test 2.4: Should return true for ARRIVED status
+✓ Test 2.5: Should return false for IN_PROGRESS status
+✓ Test 2.6: Should return false for COMPLETED status
+✓ Test 2.7: Should return false for CANCELLED status
+✓ Test 2.8: Should handle lowercase input
+✗ Test 2.9: Should return true for SCHEDULED status
+  Expected: true
+  Received: false
+  Issue: SCHEDULED status not in cancellable list
+✓ Test 2.10: Should handle mixed case
+
+SUMMARY: 9/10 passed (90%)
+STATUS: ⚠ FEATURE GAP

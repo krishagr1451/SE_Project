@@ -1,0 +1,23 @@
+TEST 5: validateEmail Function
+File: test/test5-validateEmail.test.tsx
+Date: November 9, 2025
+
+✓ Test 5.1: Should accept valid email
+✓ Test 5.2: Should accept email with dots
+✓ Test 5.3: Should accept email with numbers
+✓ Test 5.4: Should reject email without @
+✓ Test 5.5: Should reject email without domain
+✓ Test 5.6: Should reject email with spaces
+✓ Test 5.7: Should reject empty string
+✗ Test 5.8: Should accept email with + symbol
+  Expected: true
+  Received: false
+  Issue: Regex doesn't support + character
+✓ Test 5.9: Should reject multiple @ symbols
+✗ Test 5.10: Should reject email without TLD
+  Expected: false
+  Received: true
+  Issue: Regex accepts localhost/no TLD
+
+SUMMARY: 8/10 passed (80%)
+STATUS: ⚠ REGEX LIMITATIONS

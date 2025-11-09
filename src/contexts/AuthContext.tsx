@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 interface UserProfile {
   id: string
@@ -11,6 +12,7 @@ interface UserProfile {
   isVerified: boolean
   licenseNumber?: string
   createdAt: string
+  image?: string
 }
 
 interface AuthContextType {
@@ -26,11 +28,19 @@ const AuthContext = createContext<AuthContextType>({
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const { data: session, status } = useSession()
   const [user, setUser] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
   const refreshUser = async () => {
-    // Check localStorage for JWT auth
+    // First check NextAuth session (Google OAuth)
+    if (session?.user) {
+      setUser(session.user as UserProfile)
+      setLoading(false)
+      return
+    }
+
+    // Fallback to JWT auth from localStorage
     const authData = localStorage.getItem('auth')
     
     if (authData) {
@@ -45,7 +55,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else {
       setUser(null)
     }
+    setLoading(false)
   }
+
+  useEffect(() => {
+    // Update user when session changes
+    if (status !== 'loading') {
+      refreshUser()
+    } else {
+      setLoading(true)
+    }
+  }, [session, status])
 
   useEffect(() => {
     // Initial load from localStorage

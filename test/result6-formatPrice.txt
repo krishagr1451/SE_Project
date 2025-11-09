@@ -1,0 +1,19 @@
+TEST 6: formatPrice Function
+File: test/test6-formatPrice.test.tsx
+Date: November 9, 2025
+
+✓ Test 6.1: Should format price in INR
+✓ Test 6.2: Should format price in USD
+✓ Test 6.3: Should handle decimal values
+✓ Test 6.4: Should round to 2 decimal places
+✓ Test 6.5: Should handle zero price
+✓ Test 6.6: Should handle negative price
+✓ Test 6.7: Should handle unknown currency
+✗ Test 6.8: Should add comma separators for large amounts
+  Expected: '₹1,00,000.00'
+  Received: '₹100000.00'
+  Issue: No thousand separator formatting
+✓ Test 6.9: Should handle large numbers
+
+SUMMARY: 8/9 passed (88.9%)
+STATUS: ⚠ FORMATTING ISSUE

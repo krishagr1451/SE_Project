@@ -6,6 +6,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import LoginForm from '@/components/LoginForm'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
+import { FcGoogle } from 'react-icons/fc'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -115,6 +117,25 @@ export default function LoginPage() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <LoginForm />
+          
+          {/* Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          {/* Google Sign In Button */}
+          <button
+            onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 rounded-xl px-6 py-3 text-gray-700 font-semibold hover:bg-gray-50 hover:border-indigo-400 hover:shadow-md transition-all duration-200"
+          >
+            <FcGoogle size={24} />
+            Continue with Google
+          </button>
         </motion.div>
 
         <motion.div
